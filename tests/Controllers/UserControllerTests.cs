@@ -5,7 +5,8 @@ namespace GameSaladTests.Controllers;
 
 public class UserControllerTests
 {
-    UserController controller;
+    private UserController controller;
+
     public UserControllerTests()
     {
         this.controller = new UserController();

@@ -5,7 +5,8 @@ namespace GameSaladTests.Controllers;
 
 public class HomeControllerTests
 {
-    HomeController controller;
+    private HomeController controller;
+
     public HomeControllerTests()
     {
         this.controller = new HomeController();
