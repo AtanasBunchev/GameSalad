@@ -22,6 +22,22 @@ services:
       watch:
         - action: rebuild
           path: .
+          ignore:
+            - .git/
+            - README*
+            - doc/
+            - tests/
+      #watch:
+      #  - action: sync
+      #    path: src/
+      #  - action: rebuild
+      #    path: .
+      #    ignore:
+      #      - src/
+      #      - tests/
+      #      - README*
+      #      - scripts/
+      #      - .git/
 
     # And the Microsoft guys should have given us a health-check condition
     #depends_on:
