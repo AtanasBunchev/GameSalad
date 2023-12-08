@@ -18,13 +18,16 @@ public class UsersDbContext : DbContext
             .UseSqlServer(@"Server=db;Database=GameSalad;User Id=sa;Password=df682008-f174-48b2-9a76-b99e7fc799ee");
     }
 
-    public void Add(User user)
+    public void Add(User item)
     {
-        // add user to db
+        Users.Add(item);
+        this.SaveChanges();
     }
 
-    public User? GetById(int Id)
+    public User? GetById(int id)
     {
-        return null;
+        return Users
+            .Where(item => item.Id == id)
+            .FirstOrDefault();
     }
 }
