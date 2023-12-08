@@ -1,0 +1,15 @@
+.menu
+{
+    display: flex;
+}
+
+.menu li
+{
+    flex: 1;
+    list-style: none;
+}
+
+.menu .filler
+{
+    flex: auto;
+}
