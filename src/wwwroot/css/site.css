@@ -1,3 +1,37 @@
+:root
+{
+    --main-bg-color: #333;
+    --main-border-color: #8c3;
+    --main-fg-color: #cc8;
+}
+
+body
+{
+    background: black;
+    color: var(--main-fg-color);
+    padding: 16px;
+}
+
+header
+{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+header .logo
+{
+    height: 150px;
+    width: 300px;
+    margin: auto 20px;
+    border: 2px solid var(--main-border-color);
+}
+
+header nav
+{
+    flex: auto;
+}
+
+
 .menu
 {
     display: flex;
@@ -10,12 +44,19 @@
     list-style: none;
     padding: 10px 20px;
     margin: 5px;
-    background: #0ff;
-    border: 2px solid black;
+    background: var(--main-bg-color);
+    border: 2px solid var(--main-border-color);
     border-radius: 2px;
+}
+
+.menu a
+{
+    text-decoration: none;
+    color: var(--main-fg-color);
 }
 
 .menu .filler
 {
     flex: auto;
 }
+
