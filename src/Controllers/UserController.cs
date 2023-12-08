@@ -10,13 +10,11 @@ namespace GameSalad.Controllers
     {
         public IActionResult Login()
         {
-            ViewData["title"] = "GameSalad | Login";
             return View();
         }
 
         public IActionResult Register()
         {
-            ViewData["title"] = "GameSalad | Register";
             return View();
         }
     }

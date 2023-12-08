@@ -5,33 +5,23 @@ namespace GameSaladTests.Controllers;
 
 public class UserControllerTests
 {
-    [Fact]
-    public void LoginSetsTitleTest()
+    UserController controller;
+    public UserControllerTests()
     {
-        UserController controller = new UserController();
-        ViewResult? result = controller.Login() as ViewResult;
-        if (result == null)
-        {
-            Assert.Fail("Expected ViewResult as return type!");
-        }
-        else
-        {
-            Assert.Equal("GameSalad | Login", result.ViewData["Title"]);
-        }
+        this.controller = new UserController();
     }
 
     [Fact]
-    public void RegisterSetsTitleTest()
+    public void LoginReturnsViewResultTest()
     {
-        UserController controller = new UserController();
+        ViewResult? result = controller.Login() as ViewResult;
+        Assert.NotNull(result);
+    }
+
+    [Fact]
+    public void RegisterReturnsViewResultTest()
+    {
         ViewResult? result = controller.Register() as ViewResult;
-        if (result == null)
-        {
-            Assert.Fail("Expected ViewResult as return type!");
-        }
-        else
-        {
-            Assert.Equal("GameSalad | Register", result.ViewData["Title"]);
-        }
+        Assert.NotNull(result);
     }
 }

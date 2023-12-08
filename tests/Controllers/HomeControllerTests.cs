@@ -5,18 +5,16 @@ namespace GameSaladTests.Controllers;
 
 public class HomeControllerTests
 {
-    [Fact]
-    public void IndexSetsTitleTest()
+    HomeController controller;
+    public HomeControllerTests()
     {
-        HomeController controller = new HomeController();
+        this.controller = new HomeController();
+    }
+
+    [Fact]
+    public void IndexReturnsViewResultTest()
+    {
         ViewResult? result = controller.Index() as ViewResult;
-        if (result == null)
-        {
-            Assert.Fail("Expected ViewResult as return type!");
-        }
-        else
-        {
-            Assert.Equal("GameSalad | Home", result.ViewData["Title"]);
-        }
+        Assert.NotNull(result);
     }
 }
