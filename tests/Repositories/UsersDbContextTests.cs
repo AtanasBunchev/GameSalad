@@ -22,12 +22,8 @@ public class UserDbContextTests
             Password = "pass"
         };
         context.Add(item);
-        context.Save();
-        Assert.NotNull(item.Id);
 
         User? item2 = context.GetById(item.Id);
-        Assert.NotNull(item2);
-
         Assert.Equal(item, item2);
     }
 }

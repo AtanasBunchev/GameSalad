@@ -8,5 +8,5 @@ namespace GameSalad.Entities;
 public class Entity
 {
     [Key]
-    public int? Id { get; set; }
+    public int Id { get; set; }
 }
