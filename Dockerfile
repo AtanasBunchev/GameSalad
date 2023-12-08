@@ -32,7 +32,7 @@ RUN apk add --no-cache tar
 RUN mkdir /source
 COPY src /source/src
 WORKDIR /source/src
-CMD dotnet run --no-launch-profile
+CMD dotnet watch run --no-launch-profile
 #CMD dotnet watch run --no-launch-profile
 
 # If you need to enable globalization and time zones:

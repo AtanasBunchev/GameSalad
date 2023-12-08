@@ -15,18 +15,20 @@ services:
     ports:
       - 8080:80
     environment:
-     - ASPNETCORE_ENVIRONMENT=Development
-     - ASPNETCORE_URLS=http://+:80'
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80'
+    volumes:
+      - ./src:/source/src
 
-    develop:
-      watch:
-        - action: rebuild
-          path: .
-          ignore:
-            - .git/
-            - README*
-            - doc/
-            - tests/
+    #develop:
+    #  watch:
+    #    - action: rebuild
+    #      path: .
+    #      ignore:
+    #        - .git/
+    #        - README*
+    #        - doc/
+    #        - tests/
       #watch:
       #  - action: sync
       #    path: src/
