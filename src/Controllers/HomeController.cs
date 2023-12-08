@@ -9,6 +9,7 @@ namespace GameSalad.Controllers
     {
         public IActionResult Index()
         {
+            ViewData["title"] = "GameSalad | Home";
             return View();
         }
     }
