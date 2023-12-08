@@ -1,4 +1,4 @@
-namespace tests;
+namespace GameSaladTests;
 
 public class UnitTest1
 {
