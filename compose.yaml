@@ -50,7 +50,7 @@ services:
     image: "mcr.microsoft.com/mssql/server:2022-latest"
     environment:
       - ACCEPT_EULA=Y
-      - MSSQL_SA_PASSWORD=ABCD123$
+      - MSSQL_SA_PASSWORD=df682008-f174-48b2-9a76-b99e7fc799ee
 
     # It logs a message of over 10000 characters. Each on a new line.
     logging:
