@@ -1,12 +1,18 @@
 .menu
 {
     display: flex;
+    margin: 0px;
+    padding: 0px;
 }
 
 .menu li
 {
-    flex: 1;
     list-style: none;
+    padding: 10px 20px;
+    margin: 5px;
+    background: #0ff;
+    border: 2px solid black;
+    border-radius: 2px;
 }
 
 .menu .filler
