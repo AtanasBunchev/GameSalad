@@ -12,11 +12,6 @@ namespace GameSalad.Controllers
     {
         private UsersDbContext context;
 
-        public UserController()
-        {
-            this.context = new UsersDbContext();
-        }
-
         public UserController(UsersDbContext context)
         {
             this.context = context;

@@ -28,12 +28,11 @@ RUN --mount=type=cache,id=nuget,target=/root/.nuget/packages \
 RUN dotnet test /source/tests
 
 FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine AS development
-RUN apk add --no-cache tar
+# RUN apk add --no-cache tar
 RUN mkdir /source
 COPY src /source/src
 WORKDIR /source/src
 CMD dotnet watch run --no-launch-profile
-#CMD dotnet watch run --no-launch-profile
 
 # If you need to enable globalization and time zones:
 # https://github.com/dotnet/dotnet-docker/blob/main/samples/enable-globalization.md
