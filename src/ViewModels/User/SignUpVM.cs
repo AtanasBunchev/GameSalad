@@ -22,7 +22,9 @@ public class SignUpVM : IValidatableObject
     {
         if (Password != RepeatPassword)
         {
-            yield return new ValidationResult("*Passwords don't match!");
+            yield return new ValidationResult(
+                "Passwords don't match!",
+                new[] { nameof(RepeatPassword) });
         }
     }
 }
