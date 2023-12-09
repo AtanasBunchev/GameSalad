@@ -1,16 +1,25 @@
 using GameSalad.Repositories;
 using GameSalad.Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameSaladTests.Repositories;
 
-public class UserDbContextTests
+public class UserDbContextTests : IDisposable
 {
-    private TestUserDbContext context;
+    private TestUsersDbContext context;
 
     public UserDbContextTests()
     {
-        this.context = new TestUserDbContext();
+        this.context = new TestUsersDbContext();
+        this.context.Database.Migrate();
+    }
+
+    public void Dispose()
+    {
+        this.context.Dispose();
     }
 
     [Fact]
