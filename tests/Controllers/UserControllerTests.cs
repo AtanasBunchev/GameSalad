@@ -54,6 +54,7 @@ public class UserControllerTests
         SignUpVM model = SignUpVMTests.GetValidModel();
         controller.SignUp(model);
 
+        Assert.NotNull(model.Username);
         User? user = context.FindByUsername(model.Username);
         Assert.NotNull(user);
     }
@@ -64,6 +65,7 @@ public class UserControllerTests
         SignUpVM model = SignUpVMTests.GetInvalidModel();
         controller.SignUp(model);
 
+        Assert.NotNull(model.Username);
         User? user = context.FindByUsername(model.Username);
         Assert.Null(user);
     }
