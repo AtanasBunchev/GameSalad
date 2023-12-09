@@ -24,4 +24,11 @@ public class UsersDbContext : DbContext
             .Where(item => item.Id == id)
             .FirstOrDefault();
     }
+
+    public User? FindByUsername(string username)
+    {
+        return Users
+            .Where(item => item.Username == username)
+            .FirstOrDefault();
+    }
 }
