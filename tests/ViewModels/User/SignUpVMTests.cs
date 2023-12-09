@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GameSaladTests.ViewModels.User;
 
-public class RegisterVMTests
+public class SignUpVMTests
 {
-    private RegisterVM model;
+    private SignUpVM model;
 
-    public RegisterVMTests()
+    public SignUpVMTests()
     {
-        this.model = new RegisterVM
+        this.model = new SignUpVM
         {
             Username = "name",
             Password = "pass",

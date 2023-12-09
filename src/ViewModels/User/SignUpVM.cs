@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace GameSalad.ViewModels.User;
 
-public class RegisterVM : IValidatableObject
+public class SignUpVM : IValidatableObject
 {
     [DisplayName("Username: ")]
     [Required(ErrorMessage = "*This field is Required!")]

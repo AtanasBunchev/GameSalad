@@ -20,9 +20,9 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void RegisterReturnsViewResultTest()
+    public void SignUpReturnsViewResultTest()
     {
-        ViewResult? result = controller.Register() as ViewResult;
+        ViewResult? result = controller.SignUp() as ViewResult;
         Assert.NotNull(result);
     }
 }

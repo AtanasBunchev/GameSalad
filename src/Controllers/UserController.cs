@@ -13,7 +13,8 @@ namespace GameSalad.Controllers
             return View();
         }
 
-        public IActionResult Register()
+        [HttpGet]
+        public IActionResult SignUp()
         {
             return View();
         }
