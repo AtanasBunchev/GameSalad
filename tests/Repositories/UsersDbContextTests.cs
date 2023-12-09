@@ -22,6 +22,7 @@ public class UserDbContextTests : IDisposable
         this.context.Dispose();
     }
 
+
     [Fact]
     public void AddUserAndGetByIdTest()
     {
@@ -31,8 +32,30 @@ public class UserDbContextTests : IDisposable
             Password = "pass"
         };
         context.Add(item);
+        context.SaveChanges();
 
         User? item2 = context.GetById(item.Id);
         Assert.Equal(item, item2);
+    }
+
+    [Fact]
+    public void AddAndRemoveUserTest()
+    {
+        User item = new User
+        {
+            Username = "user",
+            Password = "pass"
+        };
+        context.Add(item);
+        context.SaveChanges();
+
+        User? item2 = context.GetById(item.Id);
+        Assert.Equal(item, item2);
+
+        context.Remove(item);
+        context.SaveChanges();
+
+        User? item3 = context.GetById(item.Id);
+        Assert.Null(item3);
     }
 }

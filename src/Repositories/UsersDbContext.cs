@@ -5,7 +5,7 @@ namespace GameSalad.Repositories;
 
 public class UsersDbContext : DbContext
 {
-    protected DbSet<User> Users { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public UsersDbContext()
     {
@@ -16,12 +16,6 @@ public class UsersDbContext : DbContext
     {
         optionsBuilder
             .UseSqlServer(@"Server=db;Database=GameSalad;User Id=sa;Password=df682008-f174-48b2-9a76-b99e7fc799ee");
-    }
-
-    public void Add(User item)
-    {
-        Users.Add(item);
-        this.SaveChanges();
     }
 
     public User? GetById(int id)
