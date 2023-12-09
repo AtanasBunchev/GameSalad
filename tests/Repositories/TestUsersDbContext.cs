@@ -8,6 +8,11 @@ public class TestUsersDbContext : UsersDbContext
 {
     private SqliteConnection? dbConn;
 
+    public TestUsersDbContext()
+    {
+        this.Database.Migrate();
+    }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // Pass an open connection to preserve the in-memory database for the object's lifetime

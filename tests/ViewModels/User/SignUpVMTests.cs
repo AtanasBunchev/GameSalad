@@ -10,13 +10,27 @@ public class SignUpVMTests
 
     public SignUpVMTests()
     {
-        this.model = new SignUpVM
-        {
+        this.model = GetValidModel();
+    }
+
+    public static SignUpVM GetValidModel()
+    {
+        return new SignUpVM {
             Username = "name",
             Password = "pass",
             RepeatPassword = "pass"
         };
     }
+
+    public static SignUpVM GetInvalidModel()
+    {
+        return new SignUpVM {
+            Username = "name",
+            Password = "pass",
+            RepeatPassword = "different"
+        };
+    }
+
 
     [Fact]
     public void VerifyValidationWithCorrectDataTest()
@@ -56,7 +70,7 @@ public class SignUpVMTests
     }
 
     [Fact]
-    public void VerifyDifferentPasswordsFailValidationTest()
+    public void VerifyDifferentPasswordsFailsValidationTest()
     {
         model.RepeatPassword += "different";
 

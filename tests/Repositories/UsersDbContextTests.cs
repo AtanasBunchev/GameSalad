@@ -14,7 +14,6 @@ public class UserDbContextTests : IDisposable
     public UserDbContextTests()
     {
         this.context = new TestUsersDbContext();
-        this.context.Database.Migrate();
     }
 
     public void Dispose()
@@ -57,5 +56,20 @@ public class UserDbContextTests : IDisposable
 
         User? item3 = context.GetById(item.Id);
         Assert.Null(item3);
+    }
+
+    [Fact]
+    public void AddUserAndFindByUsernameTest()
+    {
+        User item = new User
+        {
+            Username = "user",
+            Password = "pass"
+        };
+        context.Add(item);
+        context.SaveChanges();
+
+        User? item2 = context.FindByUsername(item.Username);
+        Assert.Equal(item, item2);
     }
 }
