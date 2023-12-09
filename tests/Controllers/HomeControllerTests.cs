@@ -15,7 +15,6 @@ public class HomeControllerTests
     [Fact]
     public void IndexReturnsViewResultTest()
     {
-        ViewResult? result = controller.Index() as ViewResult;
-        Assert.NotNull(result);
+        Assert.IsType<ViewResult>(controller.Index());
     }
 }

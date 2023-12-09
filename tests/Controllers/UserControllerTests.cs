@@ -21,31 +21,30 @@ public class UserControllerTests
     [Fact]
     public void LoginReturnsViewResultTest()
     {
-        ViewResult? result = controller.Login() as ViewResult;
-        Assert.NotNull(result);
+        Assert.IsType<ViewResult>(controller.Login());
     }
 
     [Fact]
     public void SignUpReturnsViewResultTest()
     {
-        ViewResult? result = controller.SignUp() as ViewResult;
-        Assert.NotNull(result);
+        Assert.IsType<ViewResult>(controller.SignUp());
     }
 
     [Fact]
     public void SignUpWithInvalidModelReturnsViewTest()
     {
         SignUpVM model = SignUpVMTests.GetInvalidModel();
-        ViewResult? result = controller.SignUp(model) as ViewResult;
-        Assert.NotNull(result);
+        Assert.IsType<ViewResult>(controller.SignUp(model));
     }
 
     [Fact]
-    public void SignUpWithValidModelRedirectsTest()
+    public void SignUpWithValidModelRedirectsToLoginTest()
     {
         SignUpVM model = SignUpVMTests.GetValidModel();
-        RedirectResult? result = controller.SignUp(model) as RedirectResult;
-        Assert.NotNull(result);
+        var result = Assert
+            .IsType<RedirectToActionResult>(controller.SignUp(model));
+        Assert.Null(result.ControllerName);
+        Assert.Equal("Login", result.ActionName);
     }
 
     [Fact]
@@ -55,7 +54,7 @@ public class UserControllerTests
         controller.SignUp(model);
 
         Assert.NotNull(model.Username);
-        User? user = context.FindByUsername(model.Username);
+        var user = context.FindByUsername(model.Username);
         Assert.NotNull(user);
     }
 
@@ -66,7 +65,7 @@ public class UserControllerTests
         controller.SignUp(model);
 
         Assert.NotNull(model.Username);
-        User? user = context.FindByUsername(model.Username);
+        var user = context.FindByUsername(model.Username);
         Assert.Null(user);
     }
 }
