@@ -1,6 +1,7 @@
 using GameSalad.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace GameSaladTests.ViewModels.User;
 
@@ -53,7 +54,12 @@ public class SignUpVMTests
 
         var isValid = Validator
             .TryValidateObject(model, context, results, true);
+        var messages = results
+            .Where(r => r.MemberNames
+                .Contains(nameof(model.Username)))
+            .Select(r => r.ErrorMessage);
         Assert.False(isValid);
+        Assert.NotEmpty(messages);
     }
 
     [Fact]
@@ -66,7 +72,12 @@ public class SignUpVMTests
 
         var isValid = Validator
             .TryValidateObject(model, context, results, true);
+        var messages = results
+            .Where(r => r.MemberNames
+                .Contains(nameof(model.Password)))
+            .Select(r => r.ErrorMessage);
         Assert.False(isValid);
+        Assert.NotEmpty(messages);
     }
 
     [Fact]
@@ -78,6 +89,11 @@ public class SignUpVMTests
         var results = new List<ValidationResult>();
         var isValid = Validator
             .TryValidateObject(model, context, results, true);
+        var messages = results
+            .Where(r => r.MemberNames
+                .Contains(nameof(model.RepeatPassword)))
+            .Select(r => r.ErrorMessage);
         Assert.False(isValid);
+        Assert.NotEmpty(messages);
     }
 }
