@@ -23,15 +23,6 @@ public class SignUpVMTests
         };
     }
 
-    public static SignUpVM GetInvalidModel()
-    {
-        return new SignUpVM {
-            Username = "name",
-            Password = "pass",
-            RepeatPassword = "different"
-        };
-    }
-
 
     [Fact]
     public void VerifyValidationWithCorrectDataTest()

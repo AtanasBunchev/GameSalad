@@ -33,7 +33,8 @@ public class UserControllerTests
     [Fact]
     public void SignUpWithInvalidModelReturnsViewTest()
     {
-        SignUpVM model = SignUpVMTests.GetInvalidModel();
+        SignUpVM model = SignUpVMTests.GetValidModel();
+        controller.ViewData.ModelState.AddModelError("Key", "Message");
         Assert.IsType<ViewResult>(controller.SignUp(model));
     }
 
@@ -61,7 +62,9 @@ public class UserControllerTests
     [Fact]
     public void SignUpWithInvalidModelDoNotCreateUserTest()
     {
-        SignUpVM model = SignUpVMTests.GetInvalidModel();
+        SignUpVM model = SignUpVMTests.GetValidModel();
+        controller.ViewData.ModelState.AddModelError("Key", "Message");
+
         controller.SignUp(model);
 
         Assert.NotNull(model.Username);
