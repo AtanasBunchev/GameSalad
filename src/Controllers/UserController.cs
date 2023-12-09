@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using GameSalad.ViewModels.User;
 using GameSalad.Repositories;
+using GameSalad.Entities;
 
 namespace GameSalad.Controllers
 {
@@ -31,7 +32,18 @@ namespace GameSalad.Controllers
         [HttpPost]
         public IActionResult SignUp(SignUpVM model)
         {
-            return View(model);
+            if(!ModelState.IsValid)
+                return View(model);
+
+            User user = new User
+            {
+                Username = model.Username,
+                Password = model.Password
+            };
+            context.Add(user);
+            context.SaveChanges();
+
+            return RedirectToAction("Login");
         }
     }
 }
