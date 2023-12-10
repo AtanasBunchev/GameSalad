@@ -55,6 +55,10 @@ namespace GameSalad.Controllers
                     return View(model);
                 }
             }
+            else
+            {
+                throw new ArgumentException("Username is Null");
+            }
 
             User user = new User
             {

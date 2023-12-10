@@ -23,6 +23,13 @@
                 <td>@Html.PasswordFor(m => m.RepeatPassword)</td>
                 <td>@Html.ValidationMessageFor(m => m.RepeatPassword)</td>
             </tr>
+            <tr>
+                <td colspan="3">
+                    <small>
+                        Your password will be stored as plain text.
+                    </small>
+                </td>
+            <tr>
         </table>
 
         <input type="submit" value="Sign Up" />
