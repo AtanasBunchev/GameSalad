@@ -3,3 +3,32 @@
     ViewData["title"] = "GameSalad | Login";
 }
 
+<h2> Login </h2>
+
+@if(TempData["CreatedUser"] != null) {
+    <div>
+        Successfully registered
+        <b>@TempData["CreatedUser"]</b>
+    </div>
+}
+
+<form action="@Url.Action("Login")" method="post">
+    <div class="inline_block">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.Username)</td>
+                <td>@Html.TextBoxFor(m => m.Username)</td>
+                <td>@Html.ValidationMessageFor(m => m.Username)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+                <td>@Html.ValidationMessageFor(m => m.Password)</td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Login" />
+        <div>@Html.ValidationMessage("errorMessage")</div>
+    </div>
+</form>
+

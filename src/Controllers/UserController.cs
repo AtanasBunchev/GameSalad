@@ -24,7 +24,14 @@ namespace GameSalad.Controllers
 
         public IActionResult Login()
         {
-            return View();
+            if(this.CreatedUser == null)
+                return View();
+
+            LoginVM model = new LoginVM
+            {
+                Username = CreatedUser
+            };
+            return View(model);
         }
 
 
