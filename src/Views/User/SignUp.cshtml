@@ -3,3 +3,30 @@
     ViewData["title"] = "GameSalad | Sign Up";
 }
 
+<h2> Sign Up </h2>
+
+<form action="@Url.Action("SignUp")" method="post">
+    <div class="inline_block">
+        <table>
+            <tr>
+                <td>@Html.LabelFor(m => m.Username)</td>
+                <td>@Html.TextBoxFor(m => m.Username)</td>
+                <td>@Html.ValidationMessageFor(m => m.Username)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.Password)</td>
+                <td>@Html.PasswordFor(m => m.Password)</td>
+                <td>@Html.ValidationMessageFor(m => m.Password)</td>
+            </tr>
+            <tr>
+                <td>@Html.LabelFor(m => m.RepeatPassword)</td>
+                <td>@Html.PasswordFor(m => m.RepeatPassword)</td>
+                <td>@Html.ValidationMessageFor(m => m.RepeatPassword)</td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Sign Up" />
+        <div>@Html.ValidationMessage("errorMessage")</div>
+    </div>
+</form>
+
