@@ -18,6 +18,9 @@ public class UserControllerTests
         this.controller = new UserController(context);
     }
 
+
+    /* Basic view tests */
+
     [Fact]
     public void LoginReturnsViewResultTest()
     {
@@ -29,6 +32,9 @@ public class UserControllerTests
     {
         Assert.IsType<ViewResult>(controller.SignUp());
     }
+
+
+    /* SignUp - Validation and user creation */
 
     [Fact]
     public void SignUpWithInvalidModelReturnsViewTest()
@@ -71,6 +77,47 @@ public class UserControllerTests
         var user = context.FindByUsername(model.Username);
         Assert.Null(user);
     }
+
+    [Fact]
+    public void SignUpWithExistingUsernameDoesNotCreateUserTest()
+    {
+        string username = "user";
+
+        SignUpVM model = SignUpVMTests.GetValidModel();
+        User item = UsersDbContextTests.GetValidUser();
+        model.Username = username;
+        item.Username = username;
+
+        context.Add(item);
+        context.SaveChanges();
+
+        controller.SignUp(model);
+        var user_count = context.Users
+            .Where(u => u.Username == username)
+            .ToList().Count();
+
+        Assert.Equal(user_count, 1);
+    }
+
+    [Fact]
+    public void SignUpWithExistingUsernameDoesShowErrorMessageTest()
+    {
+        string username = "user";
+
+        SignUpVM model = SignUpVMTests.GetValidModel();
+        User item = UsersDbContextTests.GetValidUser();
+        model.Username = username;
+        item.Username = username;
+
+        context.Add(item);
+        context.SaveChanges();
+
+        var result = controller.SignUp(model);
+        Assert.True(controller.ModelState.ContainsKey("Username"));
+    }
+
+
+    /* Temp data transfer */
 
     [Fact]
     public void SignUpWithValidModelStoresUsernameForNextRequestTest()

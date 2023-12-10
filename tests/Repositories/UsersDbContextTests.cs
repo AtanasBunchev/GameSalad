@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace GameSaladTests.Repositories;
 
-public class UserDbContextTests : IDisposable
+public class UsersDbContextTests : IDisposable
 {
     private TestUsersDbContext context;
 
-    public UserDbContextTests()
+    public UsersDbContextTests()
     {
         this.context = new TestUsersDbContext();
     }
@@ -22,14 +22,19 @@ public class UserDbContextTests : IDisposable
     }
 
 
-    [Fact]
-    public void AddUserAndGetByIdTest()
+    public static User GetValidUser()
     {
-        User item = new User
+        return new User
         {
             Username = "user",
             Password = "pass"
         };
+    }
+
+    [Fact]
+    public void AddUserAndGetByIdTest()
+    {
+        User item = GetValidUser();
         context.Add(item);
         context.SaveChanges();
 
@@ -40,11 +45,7 @@ public class UserDbContextTests : IDisposable
     [Fact]
     public void AddAndRemoveUserTest()
     {
-        User item = new User
-        {
-            Username = "user",
-            Password = "pass"
-        };
+        User item = GetValidUser();
         context.Add(item);
         context.SaveChanges();
 
@@ -61,11 +62,7 @@ public class UserDbContextTests : IDisposable
     [Fact]
     public void AddUserAndFindByUsernameTest()
     {
-        User item = new User
-        {
-            Username = "user",
-            Password = "pass"
-        };
+        User item = GetValidUser();
         context.Add(item);
         context.SaveChanges();
 
