@@ -37,7 +37,31 @@ namespace GameSalad.Controllers
         [HttpPost]
         public IActionResult Login(LoginVM model)
         {
-            return View();
+            if(!ModelState.IsValid)
+                return View(model);
+
+            if (model.Username == null) // warning suppression ¯\_(ツ)_/¯
+                throw new ArgumentException("Model is Not Valid");
+
+            var user = context.FindByUsername(model.Username);
+            if (user == null)
+            {
+                ModelState.AddModelError("authError",
+                    "This user is not registered yet.");
+                return View(model);
+            }
+
+            if (user.Password != model.Password)
+            {
+                ModelState.AddModelError("authError",
+                    "Incorrect Password");
+
+                return View(model);
+            }
+
+            // TODO set JWT token
+
+            return Redirect("/");
         }
 
 
@@ -63,7 +87,7 @@ namespace GameSalad.Controllers
             }
             else
             {
-                throw new ArgumentException("Username is Null");
+                throw new ArgumentException("Username is NULL");
             }
 
             User user = new User
