@@ -24,7 +24,7 @@ namespace GameSalad.Controllers
 
         public IActionResult Login()
         {
-            if(this.CreatedUser == null)
+            if (this.CreatedUser == null)
                 return View();
 
             LoginVM model = new LoginVM
@@ -43,8 +43,18 @@ namespace GameSalad.Controllers
         [HttpPost]
         public IActionResult SignUp(SignUpVM model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View(model);
+
+            if (model.Username != null) // warning suppression ¯\_(ツ)_/¯
+            {
+                if (context.FindByUsername(model.Username) != null)
+                {
+                    ModelState.AddModelError("Username",
+                        "*This username is already used.");
+                    return View(model);
+                }
+            }
 
             User user = new User
             {
