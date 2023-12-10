@@ -13,6 +13,9 @@ namespace GameSalad.Controllers
     {
         private UsersDbContext context;
 
+        [TempData]
+        public string? CreatedUser { get; set; }
+
         public UserController(UsersDbContext context)
         {
             this.context = context;
@@ -23,6 +26,7 @@ namespace GameSalad.Controllers
         {
             return View();
         }
+
 
         public IActionResult SignUp()
         {
@@ -42,6 +46,7 @@ namespace GameSalad.Controllers
             };
             context.Add(user);
             context.SaveChanges();
+            this.CreatedUser = user.Username;
 
             return RedirectToAction("Login");
         }

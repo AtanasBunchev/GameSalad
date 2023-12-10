@@ -71,4 +71,24 @@ public class UserControllerTests
         var user = context.FindByUsername(model.Username);
         Assert.Null(user);
     }
+
+    [Fact]
+    public void SignUpWithValidModelStoresUsernameForNextRequestTest()
+    {
+        SignUpVM model = SignUpVMTests.GetValidModel();
+        controller.SignUp(model);
+
+        Assert.NotNull(model.Username);
+        Assert.Equal(model.Username, controller.CreatedUser);
+    }
+
+    [Fact]
+    public void LoginShowsCreatedUsername()
+    {
+        string username = "user";
+        controller.CreatedUser = username;
+        var result = Assert.IsType<ViewResult>(controller.Login());
+        var model = Assert.IsType<LoginVM>(result.Model);
+        Assert.Equal(model.Username, username);
+    }
 }
