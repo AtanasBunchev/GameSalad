@@ -34,6 +34,12 @@ namespace GameSalad.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public IActionResult Login(LoginVM model)
+        {
+            return View();
+        }
+
 
         public IActionResult SignUp()
         {

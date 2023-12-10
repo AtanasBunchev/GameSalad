@@ -66,7 +66,7 @@ public class UserControllerTests
     }
 
     [Fact]
-    public void SignUpWithInvalidModelDoNotCreateUserTest()
+    public void SignUpWithInvalidModelDoesNotCreateUserTest()
     {
         SignUpVM model = SignUpVMTests.GetValidModel();
         controller.ViewData.ModelState.AddModelError("Key", "Message");
@@ -138,4 +138,80 @@ public class UserControllerTests
         var model = Assert.IsType<LoginVM>(result.Model);
         Assert.Equal(model.Username, username);
     }
+
+
+    /* Login tests - Validation and login */
+
+    [Fact]
+    public void LoginWithInvalidModelReturnsViewTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+        controller.ViewData.ModelState.AddModelError("Key", "Message");
+
+        var result = controller.Login(model);
+        Assert.IsType<ViewResult>(result);
+    }
+
+    [Fact]
+    public void LoginWithValidModelWithoutExistingUserFailsTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+        var result = controller.Login(model);
+        Assert.IsType<ViewResult>(result);
+        Assert.True(controller.ModelState.ContainsKey("authError"),
+            "Expected authError error in ModelState");
+    }
+
+    [Fact]
+    public void LoginWithValidModelAndExistingUserRedirectsToBaseTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+
+        var user = UsersDbContextTests.GetValidUser();
+        user.Username = model.Username;
+        user.Password = model.Password;
+
+        context.Add(user);
+        context.SaveChanges();
+
+        var result = controller.Login(model);
+        var redirect = Assert.IsType<RedirectResult>(result);
+        Assert.Equal(redirect.Url, "/");
+    }
+
+    [Fact]
+    public void SuccessfulLoginSetsJWTokenTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+
+        var user = UsersDbContextTests.GetValidUser();
+        user.Username = model.Username;
+        user.Password = model.Password;
+
+        context.Add(user);
+        context.SaveChanges();
+
+        controller.Login(model);
+        Assert.Fail("Test not implemented"); // TODO implement
+    }
+
+    [Fact]
+    public void LoginWithInvalidModelDoesNotSetJWTokenTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+        controller.ViewData.ModelState.AddModelError("Key", "Message");
+
+        controller.Login(model);
+        Assert.Fail("Test not implemented"); // TODO implement
+    }
+
+    [Fact]
+    public void LoginWithoutExistingUserDoesNotSetJWTokenTest()
+    {
+        var model = LoginVMTests.GetValidModel();
+        var result = controller.Login(model);
+        Assert.Fail("Test not implemented"); // TODO implement
+    }
+
+
 }
