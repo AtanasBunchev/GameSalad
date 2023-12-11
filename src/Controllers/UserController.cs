@@ -1,8 +1,13 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using GameSalad.ViewModels.User;
 using GameSalad.Repositories;
 using GameSalad.Entities;
@@ -62,6 +67,31 @@ namespace GameSalad.Controllers
             // TODO set JWT token
 
             return Redirect("/");
+        }
+
+        private JwtSecurityToken GenerateUserToken(User user)
+        {
+            var claims = new[]
+            {
+                new Claim("LoggedUserId", user.Id.ToString())
+            };
+
+            var signingKey = new SymmetricSecurityKey(
+                Encoding.ASCII.GetBytes(
+                    "d418e5ebaee346698ebbbd375ba1f692"));
+            var signingCredentials = new SigningCredentials(
+                signingKey,
+                SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                null, // issuer
+                null, // audience
+                claims,
+                expires: DateTime.UtcNow.AddMinutes(30),
+                signingCredentials: signingCredentials
+            );
+
+            return token;
         }
 
 
