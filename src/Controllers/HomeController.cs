@@ -1,7 +1,7 @@
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
 namespace GameSalad.Controllers
 {
@@ -9,7 +9,6 @@ namespace GameSalad.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["title"] = "GameSalad | Home";
             return View();
         }
     }

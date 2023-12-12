@@ -30,7 +30,9 @@
                         <li>Home</li>
                     </a>
                     @if(ViewData["user"] != null) {
-                        
+                        <a href="@Url.Action("Index", "FriendList")">
+                            <li>Friends</li>
+                        </a>
                     }
                     <div class="filler"> </div>
                     @if(ViewData["user"] == null) {
