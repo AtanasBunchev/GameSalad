@@ -13,7 +13,7 @@ public class GameEntry : Entity
     [Required]
     public int? UserId { get; set; }
     [Required]
-    public bool? Active { get; set; } = false;
+    public bool Active { get; set; } = false;
     public string? Data { get; set; }
 
     [ForeignKey("UserId")]
