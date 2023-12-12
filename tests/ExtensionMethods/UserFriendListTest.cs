@@ -29,11 +29,11 @@ public class UserFriendListTest
     [Fact]
     public void UserFollowTest()
     {
-        user1.Follow(this.context, user2);
+        user1.Follow(user2, this.context);
 
         var entries = this.context.UserFollowEntries.ToList();
 
-        Assert.Equal(1, entries.Count());
+        Assert.Single(entries);
         var entry = entries[0];
 
         context.Entry(entry)
