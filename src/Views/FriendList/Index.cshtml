@@ -1,4 +1,30 @@
+@model GameSalad.ViewModels.FriendList.IndexVM
 @{
     ViewData["Title"] = "GameSalad | Friends";
 }
 
+<div class="flex_container">
+    <div class="inline-block border">
+        <h2 class="center_content">
+            People you are Following
+        </h2>
+        @foreach(var user in Model.Following)
+        {
+            <div class="inline-block">
+                @user.Username
+            </div>
+        }
+    </div>
+
+    <div class="inline-block border">
+        <h2 class="center_content">
+            Your Followers
+        </h2>
+        @foreach(var user in Model.Followers)
+        {
+            <div class="inline-block">
+                @user.Username
+            </div>
+        }
+    </div>
+</div>

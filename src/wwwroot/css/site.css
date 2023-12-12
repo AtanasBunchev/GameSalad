@@ -65,6 +65,24 @@ header nav
     display: inline-block;
 }
 
+.border
+{
+    border: 2px solid var(--main-border-color);
+    border-radius: 12px;
+}
+
+.flex_container
+{
+    display: flex;
+}
+
+.flex_container > *
+{
+    flex: 1;
+    margin: 5px;
+}
+
+
 .center_content
 {
     display: flex;
