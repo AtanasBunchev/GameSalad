@@ -65,15 +65,17 @@ namespace GameSalad.Controllers
                 return View(model);
             }
 
-            var token = GenerateUserToken(user).ToString();
+            var token = GenerateUserToken(user);
             SetAuthenticationBearerToken(token);
 
             return Redirect("/");
         }
 
-        protected virtual void SetAuthenticationBearerToken(string token)
+        protected virtual void SetAuthenticationBearerToken(JwtSecurityToken token)
         {
-            var header = new AuthenticationHeaderValue("Bearer", token);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var encodedToken = tokenHandler.WriteToken(token);
+            var header = new AuthenticationHeaderValue("Bearer", encodedToken);
             Response.Headers.Authorization = header.ToString();
         }
 
@@ -92,8 +94,8 @@ namespace GameSalad.Controllers
                 SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                null, // issuer
-                null, // audience
+                "the.issuer", // issuer
+                "the.audience", // audience
                 claims,
                 expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signingCredentials

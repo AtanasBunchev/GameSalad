@@ -24,6 +24,9 @@ public class Program
             Encoding.ASCII.GetBytes("d418e5ebaee346698ebbbd375ba1f692"));
         var tokenValidationParameters = new TokenValidationParameters
         {
+            ValidIssuer = "the.issuer",
+            ValidAudience = "the.audience",
+
             ValidateIssuerSigningKey = true,
             IssuerSigningKey = signingKey,
             ValidateLifetime = true,
@@ -50,7 +53,7 @@ public class Program
         app.UseRouting();
 
         app.UseAuthentication();
-        // app.UseAuthorization();
+        app.UseAuthorization();
         // app.UseSession();
 
         app.MapDefaultControllerRoute();

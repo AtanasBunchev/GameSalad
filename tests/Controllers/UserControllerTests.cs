@@ -194,6 +194,9 @@ public class UserControllerTests
         controller.Login(model);
         Assert.True(controller.BearerTokenModifiedCount > 0,
             "Expected SetAuthenticationBearerToken to be called.");
+        var token = controller.LastBearerToken;
+
+        // TODO check if claims contain LoggedUserId == user.Id
     }
 
     [Fact]
