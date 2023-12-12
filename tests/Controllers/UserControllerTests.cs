@@ -220,4 +220,23 @@ public class UserControllerTests
     }
 
 
+    /* Signed in users get redirected to base */
+
+    [Fact]
+    public void LoginRedirectIfSignedInTest()
+    {
+        controller.LoggedUser = UsersDbContextTests.GetValidUser();
+        var result = controller.Login();
+        var redirect = Assert.IsType<RedirectResult>(result);
+        Assert.Equal("/", redirect.Url);
+    }
+
+    [Fact]
+    public void SignUpRedirectIfSignedInTest()
+    {
+        controller.LoggedUser = UsersDbContextTests.GetValidUser();
+        var result = controller.SignUp();
+        var redirect = Assert.IsType<RedirectResult>(result);
+        Assert.Equal("/", redirect.Url);
+    }
 }

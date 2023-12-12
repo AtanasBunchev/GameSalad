@@ -20,7 +20,7 @@ public class UsersDbContext : DbContext
             .UseSqlServer(@"Server=db;Database=GameSalad;User Id=sa;Password=df682008-f174-48b2-9a76-b99e7fc799ee;TrustServerCertificate=True");
     }
 
-    public User? GetById(int id)
+    public User? GetUserById(int id)
     {
         return Users
             .Where(item => item.Id == id)

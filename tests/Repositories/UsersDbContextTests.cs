@@ -32,13 +32,13 @@ public class UsersDbContextTests : IDisposable
     }
 
     [Fact]
-    public void AddUserAndGetByIdTest()
+    public void AddUserAndGetUserByIdTest()
     {
         User item = GetValidUser();
         context.Add(item);
         context.SaveChanges();
 
-        var item2 = Assert.IsType<User>(context.GetById(item.Id));
+        var item2 = Assert.IsType<User>(context.GetUserById(item.Id));
         Assert.Equal(item, item2);
     }
 
@@ -49,13 +49,13 @@ public class UsersDbContextTests : IDisposable
         context.Add(item);
         context.SaveChanges();
 
-        var item2 = Assert.IsType<User>(context.GetById(item.Id));
+        var item2 = Assert.IsType<User>(context.GetUserById(item.Id));
         Assert.Equal(item, item2);
 
         context.Remove(item);
         context.SaveChanges();
 
-        User? item3 = context.GetById(item.Id);
+        User? item3 = context.GetUserById(item.Id);
         Assert.Null(item3);
     }
 
@@ -66,7 +66,7 @@ public class UsersDbContextTests : IDisposable
         context.Add(item);
         context.SaveChanges();
 
-        var item2 = Assert.IsType<User>(context.GetById(item.Id));
+        var item2 = Assert.IsType<User>(context.GetUserById(item.Id));
         Assert.Equal(item, item2);
     }
 }

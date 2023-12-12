@@ -15,16 +15,14 @@ using GameSalad.Entities;
 
 namespace GameSalad.Controllers
 {
-    public class UserController : Controller
+    public class UserController : CustomController
     {
-        private UsersDbContext context;
-
         [TempData]
         public string? CreatedUser { get; set; }
 
         public UserController(UsersDbContext context)
+            : base(context)
         {
-            this.context = context;
         }
 
 
