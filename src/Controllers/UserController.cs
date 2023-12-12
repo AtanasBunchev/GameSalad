@@ -28,6 +28,9 @@ namespace GameSalad.Controllers
 
         public IActionResult Login()
         {
+            if (GetLoggedUser() != null)
+                return Redirect("/");
+
             if (this.CreatedUser == null)
                 return View();
 
@@ -117,6 +120,9 @@ namespace GameSalad.Controllers
 
         public IActionResult SignUp()
         {
+            if (GetLoggedUser() != null)
+                return Redirect("/");
+
             return View();
         }
 
