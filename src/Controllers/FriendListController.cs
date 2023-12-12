@@ -22,8 +22,11 @@ namespace GameSalad.Controllers
         public IActionResult Index()
         {
             var user = GetLoggedUser();
-            if(user == null) // warning suppression ¯\_(ツ)_/¯
+            if (user == null)
+            {
+                 // warning suppression ¯\_(ツ)_/¯
                 return Redirect("/");
+            }
 
             context.Entry(user)
                 .Collection(u => u.Followers)
@@ -57,7 +60,8 @@ namespace GameSalad.Controllers
         {
             var self = GetLoggedUser();
             var user = context.FindByUsername(username);
-            if(self != null && user != null) {
+            if (self != null && user != null)
+            {
                 Follow(self, user);
             }
             return RedirectToAction("Index");
@@ -67,7 +71,8 @@ namespace GameSalad.Controllers
         {
             var self = GetLoggedUser();
             var user = context.FindByUsername(username);
-            if(self != null && user != null) {
+            if (self != null && user != null)
+            {
                 Unfollow(self, user);
             }
             return RedirectToAction("Index");

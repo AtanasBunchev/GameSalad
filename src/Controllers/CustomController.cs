@@ -22,8 +22,10 @@ namespace GameSalad.Controllers
             var claim = HttpContext?.User?.Claims
                 ?.SingleOrDefault(u => u.Type == "LoggedUserId");
 
-            if(!int.TryParse(claim?.Value, out int userId))
+            if (!int.TryParse(claim?.Value, out int userId))
+            {
                 return null;
+            }
 
             return context.GetUserById(userId);
         }

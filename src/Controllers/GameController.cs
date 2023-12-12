@@ -27,16 +27,20 @@ namespace GameSalad.Controllers
         {
             TicTacToe game = new TicTacToe();
             ProcessGame(game, move);
-            if(move == null)
+            if (move == null)
+            {
                 return View(game);
+            }
             return RedirectToAction("TicTacToe");
         }
 
         protected void ProcessGame(IGame game, string? action = null)
         {
             var user = GetLoggedUser();
-            if(user == null)
+            if (user == null)
+            {
                 return;
+            }
 
             context.Entry(user)
                 .Collection(u => u.Games)
@@ -46,7 +50,7 @@ namespace GameSalad.Controllers
                 .Where(g => g.Type == "TicTacToe" && g.Active == true)
                 .FirstOrDefault();
 
-            if(entry == null)
+            if (entry == null)
             {
                 entry = new GameEntry
                 {
@@ -58,15 +62,15 @@ namespace GameSalad.Controllers
                 context.Games.Add(entry);
                 context.SaveChanges();
             }
-            else if(entry.Data != null)
+            else if (entry.Data != null)
             {
                 game.LoadState(entry.Data);
             }
 
-            if(action != null)
+            if (action != null)
             {
                 var validActions = game.GetValidActions();
-                if(validActions.Contains(action))
+                if (validActions.Contains(action))
                 {
                     game.Action(action);
                     entry.Active = !game.IsFinished();

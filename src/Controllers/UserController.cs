@@ -29,10 +29,14 @@ namespace GameSalad.Controllers
         public IActionResult Login()
         {
             if (GetLoggedUser() != null)
+            {
                 return Redirect("/");
+            }
 
             if (this.CreatedUser == null)
+            {
                 return View();
+            }
 
             LoginVM model = new LoginVM
             {
@@ -44,11 +48,16 @@ namespace GameSalad.Controllers
         [HttpPost]
         public IActionResult Login(LoginVM model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
-            if (model.Username == null) // warning suppression ¯\_(ツ)_/¯
+            if (model.Username == null)
+            {
+                // warning suppression ¯\_(ツ)_/¯
                 throw new ArgumentException("Model is Not Valid");
+            }
 
             var user = context.FindByUsername(model.Username);
             if (user == null)
@@ -121,7 +130,9 @@ namespace GameSalad.Controllers
         public IActionResult SignUp()
         {
             if (GetLoggedUser() != null)
+            {
                 return Redirect("/");
+            }
 
             return View();
         }
@@ -130,7 +141,9 @@ namespace GameSalad.Controllers
         public IActionResult SignUp(SignUpVM model)
         {
             if (!ModelState.IsValid)
+            {
                 return View(model);
+            }
 
             if (model.Username != null) // warning suppression ¯\_(ツ)_/¯
             {

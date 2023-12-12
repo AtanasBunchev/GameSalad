@@ -6,13 +6,18 @@
     User? user = null;
 
     var claimValue = Context?.User?.Claims?.SingleOrDefault(u => u.Type == "LoggedUserId")?.Value;
-    if(claimValue != null)
-        if(int.TryParse(claimValue, out int userId))
-            using(var dbContext = new UsersDbContext())
-                user = dbContext.GetUserById(userId);
+    if (int.TryParse(claimValue, out int userId))
+    {
+        using (var dbContext = new UsersDbContext())
+        {
+            user = dbContext.GetUserById(userId);
+        }
+    }
 
-    if(user != null)
+    if (user != null)
+    {
         ViewData["user"] = user;
+    }
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +35,7 @@
                     <a href="@Url.Action("Index", "Home")">
                         <li>Home</li>
                     </a>
-                    @if(ViewData["user"] != null) {
+                    @if (ViewData["user"] != null) {
                         <a href="@Url.Action("Index", "FriendList")">
                             <li>Friends</li>
                         </a>
@@ -40,7 +45,7 @@
                         </a>
                     }
                     <div class="filler"> </div>
-                    @if(ViewData["user"] == null) {
+                    @if (ViewData["user"] == null) {
                         <a href="@Url.Action("Login", "User")">
                             <li>Login</li>
                         </a>

@@ -58,7 +58,7 @@ public class Program
         app.Use(async (context, next) =>
         {
             var cookie = context.Request.Cookies[authenticationCookieName];
-            if(cookie != null)
+            if (cookie != null)
             {
                 context.Request.Headers.Append("Authorization", "Bearer " + cookie);
             }
