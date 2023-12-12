@@ -1,5 +1,6 @@
 using GameSalad.Repositories;
 using GameSalad.ViewModels.FriendList;
+using GameSalad.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,8 @@ namespace GameSalad.Controllers
         public IActionResult Index()
         {
             var user = GetLoggedUser();
+            if(user == null) // warning suppression ¯\_(ツ)_/¯
+                return Redirect("/");
 
             context.Entry(user)
                 .Collection(u => u.Followers)

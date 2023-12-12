@@ -1,3 +1,5 @@
+#nullable disable
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +10,6 @@ namespace GameSalad.Entities;
 
 public class UserFollowEntry : Entity
 {
-    public User? Follower { get; set; }
-    public User? Target { get; set; }
+    public User Follower { get; set; }
+    public User Target { get; set; }
 }
