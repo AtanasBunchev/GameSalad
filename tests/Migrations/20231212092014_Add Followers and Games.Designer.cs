@@ -3,6 +3,7 @@ using System;
 using GameSaladTests.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GameSaladTests.Migrations
 {
     [DbContext(typeof(TestUsersDbContext))]
-    partial class TestUsersDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231212092014_Add Followers and Games")]
+    partial class AddFollowersandGames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");

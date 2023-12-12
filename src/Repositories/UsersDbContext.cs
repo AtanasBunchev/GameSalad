@@ -6,6 +6,8 @@ namespace GameSalad.Repositories;
 public class UsersDbContext : DbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<GameEntry> Games { get; set; }
+    public DbSet<UserFollowEntry> UserFollowEntries { get; set; }
 
     public UsersDbContext()
     {
