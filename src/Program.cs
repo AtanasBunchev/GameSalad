@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using GameSalad.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -65,10 +66,24 @@ public class Program
             await next(context);
         });
         app.UseAuthentication();
+
+        app.UseStatusCodePages(context => {
+            var request = context.HttpContext.Request;
+            var response = context.HttpContext.Response;
+
+            if (response.StatusCode == (int)HttpStatusCode.Unauthorized)   
+            {
+                response.Redirect("/User/Login");
+            }
+
+            return Task.CompletedTask;
+        });
+
         app.UseAuthorization();
         // app.UseSession();
 
         app.MapDefaultControllerRoute();
+
 
         app.Run();
     }
