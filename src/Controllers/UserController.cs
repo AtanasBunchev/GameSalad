@@ -77,6 +77,18 @@ namespace GameSalad.Controllers
             var encodedToken = tokenHandler.WriteToken(token);
             var header = new AuthenticationHeaderValue("Bearer", encodedToken);
             Response.Headers.Authorization = header.ToString();
+
+            // And because browsers don't care about giving us the Authorization back...
+            var authCookieName = "access_token";
+            Response.Cookies.Append(
+                authCookieName,
+                encodedToken,
+                new CookieOptions()
+                {
+                    Expires = DateTime.Now.AddMinutes(90),
+                    HttpOnly = true
+                }
+            );
         }
 
         private JwtSecurityToken GenerateUserToken(User user)
@@ -97,7 +109,7 @@ namespace GameSalad.Controllers
                 "the.issuer", // issuer
                 "the.audience", // audience
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(30),
+                expires: DateTime.UtcNow.AddMinutes(90),
                 signingCredentials: signingCredentials
             );
 

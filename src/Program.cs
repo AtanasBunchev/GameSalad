@@ -1,6 +1,7 @@
 using System.Text;
 using GameSalad.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
@@ -52,6 +53,17 @@ public class Program
         app.UseStaticFiles();
         app.UseRouting();
 
+        var authenticationCookieName = "access_token";
+        app.Use(async (context, next) =>
+        {
+            var cookie = context.Request.Cookies[authenticationCookieName];
+            if(cookie != null)
+            {
+                context.Request.Headers.Append("Authorization", "Bearer " + cookie);
+            }
+
+            await next(context);
+        });
         app.UseAuthentication();
         app.UseAuthorization();
         // app.UseSession();
