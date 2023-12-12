@@ -43,11 +43,21 @@ namespace GameSalad.Controllers
 
         public IActionResult Follow([FromForm] string username)
         {
+            var self = GetLoggedUser();
+            var user = context.FindByUsername(username);
+            if(self != null && user != null) {
+                Follow(self, user);
+            }
             return RedirectToAction("Index");
         }
 
         public IActionResult Unfollow([FromForm] string username)
         {
+            var self = GetLoggedUser();
+            var user = context.FindByUsername(username);
+            if(self != null && user != null) {
+                Unfollow(self, user);
+            }
             return RedirectToAction("Index");
         }
 

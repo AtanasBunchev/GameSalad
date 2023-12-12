@@ -10,6 +10,11 @@ namespace GameSalad.Entities;
 
 public class UserFollowEntry : Entity
 {
+    public int FollowerId { get; set; }
+    public int TargetId { get; set; }
+
+    [ForeignKey("FollowerId")]
     public User Follower { get; set; }
+    [ForeignKey("TargetId")]
     public User Target { get; set; }
 }

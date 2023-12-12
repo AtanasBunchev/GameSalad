@@ -34,8 +34,8 @@ public class FriendListControllerAPITests
         this.controller.LoggedUser = user1;
 
         var result = controller.Follow(user2.Username);
-        var redirect = Assert.IsType<RedirectResult>(result);
-        Assert.Equal("/FriendList", redirect.Url);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
 
         Assert.Empty(this.controller.UnfollowCalls);
         Assert.Single(this.controller.FollowCalls);
@@ -58,8 +58,8 @@ public class FriendListControllerAPITests
         this.controller.LoggedUser = user1;
 
         var result = controller.Unfollow(user2.Username);
-        var redirect = Assert.IsType<RedirectResult>(result);
-        Assert.Equal("/FriendList", redirect.Url);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
 
         Assert.Empty(this.controller.FollowCalls);
         Assert.Single(this.controller.UnfollowCalls);
