@@ -32,12 +32,12 @@ public class FriendListControllerTests
 
             if(i % 2 == 0)
             {
-                Followers.Append(user);
+                Followers.Add(user);
                 user.Follow(loggedUser, this.context);
             }
             if(i % 3 == 0)
             {
-                Following.Append(user);
+                Following.Add(user);
                 loggedUser.Follow(user, this.context);
             }
         }
