@@ -15,5 +15,10 @@ public static class UserFriendList
         ctx.Add(item);
         ctx.SaveChanges();
     }
+
+    public static void Unfollow(this User u, User o, UsersDbContext ctx)
+    {
+        // TODO test & implement
+    }
 }
 

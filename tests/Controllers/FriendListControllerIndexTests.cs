@@ -7,7 +7,7 @@ using GameSaladTests.Repositories;
 
 namespace GameSaladTests.Controllers;
 
-public class FriendListControllerTests
+public class FriendListControllerIndexTests
 {
     private TestFriendListController controller;
     private TestUsersDbContext context;
@@ -15,7 +15,7 @@ public class FriendListControllerTests
     private List<User> Followers = new List<User>();
     private List<User> Following = new List<User>();
 
-    public FriendListControllerTests()
+    public FriendListControllerIndexTests()
     {
         this.context = new TestUsersDbContext();
         this.controller = new TestFriendListController(context);
@@ -78,5 +78,4 @@ public class FriendListControllerTests
         });
         Assert.Equal(Followers, followers);
     }
-
 }

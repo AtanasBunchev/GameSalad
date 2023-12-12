@@ -46,5 +46,35 @@ public class UserFriendListTest
         Assert.Equal(user1, entry.Follower);
         Assert.Equal(user2, entry.Target);
     }
+
+    [Fact]
+    public void UserFollowDoNotDuplicateTest()
+    {
+        user1.Follow(user2, this.context);
+        user1.Follow(user2, this.context);
+
+        var entries = this.context.UserFollowEntries.ToList();
+        Assert.Single(entries);
+    }
+
+    [Fact]
+    public void UserUnfollowTest()
+    {
+        user1.Follow(user2, this.context);
+
+        var entries = this.context.UserFollowEntries.ToList();
+        Assert.Single(entries);
+
+        user1.Unfollow(user2, this.context);
+
+        entries = this.context.UserFollowEntries.ToList();
+        Assert.Empty(entries);
+    }
+
+    [Fact]
+    public void UserUnfollowDoNotThrowWhenInvalidTest()
+    {
+        user1.Unfollow(user2, this.context);
+    }
 }
 

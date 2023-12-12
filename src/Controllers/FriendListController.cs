@@ -1,6 +1,7 @@
 using GameSalad.Repositories;
 using GameSalad.ViewModels.FriendList;
 using GameSalad.Entities;
+using GameSalad.ExtensionMethods;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,26 @@ namespace GameSalad.Controllers
             };
 
             return View(model);
+        }
+
+        public IActionResult Follow([FromForm] string username)
+        {
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Unfollow([FromForm] string username)
+        {
+            return RedirectToAction("Index");
+        }
+
+        protected virtual void Follow(User user1, User user2)
+        {
+            user1.Follow(user2, context);
+        }
+
+        protected virtual void Unfollow(User user1, User user2)
+        {
+            user1.Unfollow(user2, context);
         }
     }
 }
