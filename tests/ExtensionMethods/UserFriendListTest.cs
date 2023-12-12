@@ -76,5 +76,13 @@ public class UserFriendListTest
     {
         user1.Unfollow(user2, this.context);
     }
+
+    [Fact]
+    public void UserFollowDoNotFollowSelfTest()
+    {
+        user1.Follow(user1, this.context);
+        var entries = this.context.UserFollowEntries.ToList();
+        Assert.Empty(entries);
+    }
 }
 

@@ -68,7 +68,8 @@ header nav
 .border
 {
     border: 2px solid var(--main-border-color);
-    border-radius: 12px;
+    border-radius: 7px;
+    padding: 5px;
 }
 
 .flex_container
@@ -97,7 +98,7 @@ fieldset
     padding: 5px 12px 10px 12px;
 }
 
-input
+input, button
 {
     border-color: var(--main-border-color);
     background: var(--main-bg-color);

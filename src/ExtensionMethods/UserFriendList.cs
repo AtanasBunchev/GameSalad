@@ -13,6 +13,9 @@ public static class UserFriendList
         if(link != null)
             return;
 
+        if(u == o)
+            return;
+
         var item = new UserFollowEntry
         {
             Follower = u,

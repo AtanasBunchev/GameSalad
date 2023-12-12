@@ -12,6 +12,10 @@
         {
             <div class="inline-block">
                 @user.Username
+                <form action="@Url.Action("Unfollow")" method="post">
+                    <input type="hidden" name="Username" value="@user.Username">
+                    <button> Unfollow </button>
+                </form>
             </div>
         }
     </div>
@@ -28,3 +32,27 @@
         }
     </div>
 </div>
+
+<h3> Add Friend </h3>
+
+@if(TempData["FollowedUser"] != null) {
+    <div>
+        Successfully followed
+        <b>@TempData["FollowedUser"]</b>
+    </div>
+}
+
+<form action="@Url.Action("Follow")" method="post">
+    <div class="inline_block">
+        <table>
+            <tr>
+                <td>Username: </td>
+                <td><input name="Username" type="text"></td>
+                <td>@Html.ValidationMessageFor(m => m.Username)</td>
+            </tr>
+        </table>
+
+        <input type="submit" value="Follow" />
+    </div>
+</form>
+

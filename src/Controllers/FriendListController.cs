@@ -34,14 +34,26 @@ namespace GameSalad.Controllers
 
             IndexVM model = new IndexVM
             {
-                Followers = user.Followers.Select(u => u.Follower).ToList(),
-                Following = user.Followed.Select(u => u.Target).ToList()
+                Followers = user.Followers.Select(u => 
+                {
+                    context.Entry(u)
+                        .Reference(u => u.Follower)
+                        .Load();
+                    return u.Follower;
+                }).ToList(),
+                Following = user.Followed.Select(u => 
+                {
+                    context.Entry(u)
+                        .Reference(u => u.Target)
+                        .Load();
+                    return u.Target;
+                }).ToList()
             };
 
             return View(model);
         }
 
-        public IActionResult Follow([FromForm] string username)
+        public IActionResult Follow(string username)
         {
             var self = GetLoggedUser();
             var user = context.FindByUsername(username);
@@ -51,7 +63,7 @@ namespace GameSalad.Controllers
             return RedirectToAction("Index");
         }
 
-        public IActionResult Unfollow([FromForm] string username)
+        public IActionResult Unfollow(string username)
         {
             var self = GetLoggedUser();
             var user = context.FindByUsername(username);
