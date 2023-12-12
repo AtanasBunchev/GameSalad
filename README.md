@@ -19,14 +19,14 @@ docker compose up -d
 docker compose down
 ```
 
-The `compose.yaml` file specifies the services that docker has to bring up for the app to work.
+The `compose.yaml` file specifies the services that Docker has to bring up for the app to work.
 These are the application itself and Microsoft's SQL server container.
 Feel free to modify it to suit your needs or expectations.
 
-**Note:** Currently the data stored in the SQL server is contained only in the container and is not persistent. If you want to have persistent data while running the app with `docker compose` you need to modify `compose.yaml` yourself.
+**Note:** Currently the data stored in the SQL server is contained only in the container and is not persistent. If you want to have persistent data while running the app using Docker you need to modify `compose.yaml` yourself.
 Check Microsoft's [learning resource on their SQL server container](https://learn.microsoft.com/en-us/sql/linux/sql-server-linux-docker-container-configure?view=sql-server-ver16&pivots=cs1-bash) and Docker's documentation on [volume configuration in compose files](https://docs.docker.com/compose/compose-file/compose-file-v3/#volume-configuration-reference).
 
-**Note:** Currently using the docker compose approach to run the app will run a developer build using the dotnet watchdog to reload any files modified while developing.
+**Note:** Currently using the Docker compose approach to run the app will run a developer build using the dotnet watchdog to reload any files modified while developing.
 
 
 ## Running without Docker Compose
