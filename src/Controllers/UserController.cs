@@ -157,5 +157,12 @@ namespace GameSalad.Controllers
 
             return RedirectToAction("Login");
         }
+
+        public IActionResult Logout()
+        {
+            var authCookieName = "access_token";
+            Response.Cookies.Delete(authCookieName);
+            return RedirectToAction("Login");
+        }
     }
 }

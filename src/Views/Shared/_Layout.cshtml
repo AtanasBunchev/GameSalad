@@ -1,3 +1,19 @@
+@using Microsoft.AspNetCore.Mvc;
+@using System.Security.Claims;
+@using GameSalad.Entities;
+@using GameSalad.Repositories;
+@{
+    User? user = null;
+
+    var claimValue = Context?.User?.Claims?.SingleOrDefault(u => u.Type == "LoggedUserId")?.Value;
+    if(claimValue != null)
+        if(int.TryParse(claimValue, out int userId))
+            using(var dbContext = new UsersDbContext())
+                user = dbContext.GetUserById(userId);
+
+    if(user != null)
+        ViewData["user"] = user;
+}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,17 +29,27 @@
                     <a href="@Url.Action("Index", "Home")">
                         <li>Home</li>
                     </a>
+                    @if(ViewData["user"] != null) {
+                        
+                    }
                     <div class="filler"> </div>
-                    <a href="@Url.Action("Login", "User")">
-                        <li>Login</li>
-                    </a>
-                    <a href="@Url.Action("SignUp", "User")">
-                        <li>Sign Up</li>
-                    </a>
+                    @if(ViewData["user"] == null) {
+                        <a href="@Url.Action("Login", "User")">
+                            <li>Login</li>
+                        </a>
+                        <a href="@Url.Action("SignUp", "User")">
+                            <li>Sign Up</li>
+                        </a>
+                    } else {
+                        <a href="@Url.Action("Logout", "User")">
+                            <li>Logout</li>
+                        </a>
+                    }
                 </ul>
             </nav>
         </header>
         @RenderBody()
         @RenderSection("Scripts", required: false)
+
     </body>
 </html>

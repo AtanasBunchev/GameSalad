@@ -19,8 +19,8 @@ namespace GameSalad.Controllers
 
         protected virtual User? GetLoggedUser()
         {
-            var claim = (HttpContext?.User?.Claims as ClaimsPrincipal)
-                ?.FindFirst("LoggedUserId");
+            var claim = HttpContext?.User?.Claims
+                ?.SingleOrDefault(u => u.Type == "LoggedUserId");
 
             if(!int.TryParse(claim?.Value, out int userId))
                 return null;
