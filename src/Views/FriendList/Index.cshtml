@@ -6,7 +6,7 @@
 <div class="flex_container">
     <div class="inline-block border">
         <h2 class="center_content">
-            People you are Following
+            People You are Following
         </h2>
         @foreach(var user in Model.Following)
         {
@@ -22,7 +22,7 @@
 
     <div class="inline-block border">
         <h2 class="center_content">
-            Your Followers
+            People that Follow You
         </h2>
         @foreach(var user in Model.Followers)
         {
@@ -33,7 +33,7 @@
     </div>
 </div>
 
-<h3> Add Friend </h3>
+<h3> Follow Friend </h3>
 
 @if(TempData["FollowedUser"] != null) {
     <div>
