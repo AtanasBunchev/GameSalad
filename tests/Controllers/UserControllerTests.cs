@@ -9,13 +9,13 @@ namespace GameSaladTests.Controllers;
 
 public class UserControllerTests
 {
-    private UserController controller;
+    private TestUserController controller;
     private TestUsersDbContext context;
 
     public UserControllerTests()
     {
         this.context = new TestUsersDbContext();
-        this.controller = new UserController(context);
+        this.controller = new TestUserController(context);
     }
 
 
@@ -96,7 +96,7 @@ public class UserControllerTests
             .Where(u => u.Username == username)
             .ToList().Count();
 
-        Assert.Equal(user_count, 1);
+        Assert.Equal(1, user_count);
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class UserControllerTests
         controller.CreatedUser = username;
         var result = Assert.IsType<ViewResult>(controller.Login());
         var model = Assert.IsType<LoginVM>(result.Model);
-        Assert.Equal(model.Username, username);
+        Assert.Equal(username, model.Username);
     }
 
 
@@ -176,11 +176,11 @@ public class UserControllerTests
 
         var result = controller.Login(model);
         var redirect = Assert.IsType<RedirectResult>(result);
-        Assert.Equal(redirect.Url, "/");
+        Assert.Equal("/", redirect.Url);
     }
 
     [Fact]
-    public void SuccessfulLoginSetsJWTokenTest()
+    public void SuccessfulLoginSetsAuthorizationTokenTest()
     {
         var model = LoginVMTests.GetValidModel();
 
@@ -192,25 +192,28 @@ public class UserControllerTests
         context.SaveChanges();
 
         controller.Login(model);
-        Assert.Fail("Test not implemented"); // TODO implement
+        Assert.True(controller.BearerTokenModifiedCount > 0,
+            "Expected SetAuthenticationBearerToken to be called.");
     }
 
     [Fact]
-    public void LoginWithInvalidModelDoesNotSetJWTokenTest()
+    public void LoginWithInvalidModelDoesNotSetAuthorizationTokenTest()
     {
         var model = LoginVMTests.GetValidModel();
         controller.ViewData.ModelState.AddModelError("Key", "Message");
 
         controller.Login(model);
-        Assert.Fail("Test not implemented"); // TODO implement
+        Assert.True(controller.BearerTokenModifiedCount == 0,
+            "Expected SetAuthenticationBearerToken to not be called.");
     }
 
     [Fact]
-    public void LoginWithoutExistingUserDoesNotSetJWTokenTest()
+    public void LoginWithoutExistingUserDoesNotSetAuthorizationTokenTest()
     {
         var model = LoginVMTests.GetValidModel();
         var result = controller.Login(model);
-        Assert.Fail("Test not implemented"); // TODO implement
+        Assert.True(controller.BearerTokenModifiedCount == 0,
+            "Expected SetAuthenticationBearerToken to not be called.");
     }
 
 

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -64,9 +65,16 @@ namespace GameSalad.Controllers
                 return View(model);
             }
 
-            // TODO set JWT token
+            var token = GenerateUserToken(user).ToString();
+            SetAuthenticationBearerToken(token);
 
             return Redirect("/");
+        }
+
+        protected virtual void SetAuthenticationBearerToken(string token)
+        {
+            var header = new AuthenticationHeaderValue("Bearer", token);
+            Response.Headers.Authorization = header.ToString();
         }
 
         private JwtSecurityToken GenerateUserToken(User user)
