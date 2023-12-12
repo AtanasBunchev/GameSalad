@@ -20,6 +20,7 @@
         <meta charset="utf-8">
         <title>@ViewData["title"]</title>
         <link rel="stylesheet" href="~/css/site.css" />
+        @await RenderSectionAsync("Styles", required: false)
     </head>
     <body>
         <header>
