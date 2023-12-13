@@ -29,4 +29,6 @@ public class GamesControllerTests
     {
         Assert.IsType<ViewResult>(controller.Index());
     }
+
+    /* Game Interface tests */
 }
