@@ -248,13 +248,13 @@ public class GamesControllerTests
         game.ValidMoves.Add("finish");
 
         var result = controller.BasePlay(move);
-        var redirect = Assert.IsType<RedirectToRouteResult>(result);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
 
         var entries = context.Games.ToList();
         Assert.Single(entries);
         var entry = entries[0];
 
-        Assert.Equal("GameStats", redirect.RouteName); // fix?
+        Assert.Equal("GameStats", redirect.ActionName);
         int id = entry.Id;
         var dictionary = redirect.RouteValues;
         Assert.NotNull(dictionary);

@@ -84,6 +84,12 @@ public class GamesController : CustomController
                 entry.Data = game.GetState();
                 context.Update(entry);
                 context.SaveChanges();
+                if (game.HasFinished())
+                {
+                    return RedirectToAction("GameStats", new {
+                        id = entry.Id
+                    });
+                }
                 return RedirectToAction(view);
             }
         }
