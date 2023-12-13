@@ -42,6 +42,9 @@ namespace GameSalad.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Won")
+                        .HasColumnType("bit");
+
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
@@ -96,7 +99,7 @@ namespace GameSalad.Migrations
             modelBuilder.Entity("GameSalad.Entities.GameEntry", b =>
                 {
                     b.HasOne("GameSalad.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Games")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -128,6 +131,8 @@ namespace GameSalad.Migrations
                     b.Navigation("Followed");
 
                     b.Navigation("Followers");
+
+                    b.Navigation("Games");
                 });
 #pragma warning restore 612, 618
         }

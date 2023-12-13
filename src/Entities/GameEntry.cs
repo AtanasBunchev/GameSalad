@@ -14,6 +14,8 @@ public class GameEntry : Entity
     public int UserId { get; set; }
     [Required]
     public bool Active { get; set; } = true;
+    public bool Won { get; set; } = false;
+
     public string? Data { get; set; }
 
     [ForeignKey("UserId")]
