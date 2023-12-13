@@ -38,10 +38,30 @@
     ViewData["conclusion"] = game.DidPlayerWon()
         ? "Win"
         : "Lose";
+    if(!game.HasFinished())
+        ViewData["conclusion"] = user?.Id == Model?.UserId
+            ? "are still playing"
+            : "is still playing";
+
     ViewData["player"] = user?.Id == Model?.UserId
         ? "You"
-        : user?.Username;
+        : "Someone";
 
+    if (ViewData["player"] as string == "Someone" && Model?.UserId != null)
+    {
+        using (var dbContext = new UsersDbContext())
+        {
+            var other = dbContext.GetUserById(Model.UserId);
+            if (other != null)
+            {
+                ViewData["player"] = other.Username;
+                if (ViewData["conclusion"] as string == "Win")
+                    ViewData["conclusion"] = "Wins";
+                if (ViewData["conclusion"] as string == "Lose")
+                    ViewData["conclusion"] = "Loses";
+            }
+        }
+    }
     ViewData["game"] = game;
 }
 
