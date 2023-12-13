@@ -13,156 +13,155 @@ using GameSalad.ViewModels.User;
 using GameSalad.Repositories;
 using GameSalad.Entities;
 
-namespace GameSalad.Controllers
+namespace GameSalad.Controllers;
+
+public class UserController : CustomController
 {
-    public class UserController : CustomController
+    [TempData]
+    public string? CreatedUser { get; set; }
+
+    public UserController(UsersDbContext context)
+        : base(context)
     {
-        [TempData]
-        public string? CreatedUser { get; set; }
+    }
 
-        public UserController(UsersDbContext context)
-            : base(context)
+
+    public IActionResult Login()
+    {
+        if (GetLoggedUser() != null)
+            return Redirect("/");
+
+        if (this.CreatedUser == null)
+            return View();
+
+        LoginVM model = new LoginVM
         {
-        }
+            Username = CreatedUser
+        };
+        return View(model);
+    }
 
+    [HttpPost]
+    public IActionResult Login(LoginVM model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
 
-        public IActionResult Login()
+        if (model.Username == null) // warning suppression ¯\_(ツ)_/¯
+            throw new ArgumentException("Model is Not Valid");
+
+        var user = context.FindByUsername(model.Username);
+        if (user == null)
         {
-            if (GetLoggedUser() != null)
-                return Redirect("/");
-
-            if (this.CreatedUser == null)
-                return View();
-
-            LoginVM model = new LoginVM
-            {
-                Username = CreatedUser
-            };
+            ModelState.AddModelError("authError",
+                "This user is not registered yet.");
             return View(model);
         }
 
-        [HttpPost]
-        public IActionResult Login(LoginVM model)
+        if (user.Password != model.Password)
         {
-            if(!ModelState.IsValid)
-                return View(model);
+            ModelState.AddModelError("authError",
+                "Incorrect Password");
 
-            if (model.Username == null) // warning suppression ¯\_(ツ)_/¯
-                throw new ArgumentException("Model is Not Valid");
+            return View(model);
+        }
 
-            var user = context.FindByUsername(model.Username);
-            if (user == null)
+        var token = GenerateUserToken(user);
+        SetAuthenticationBearerToken(token);
+
+        return Redirect("/");
+    }
+
+    protected virtual void SetAuthenticationBearerToken(JwtSecurityToken token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var encodedToken = tokenHandler.WriteToken(token);
+        var header = new AuthenticationHeaderValue("Bearer", encodedToken);
+        Response.Headers.Authorization = header.ToString();
+
+        // And because browsers don't care about giving us the Authorization back...
+        var authCookieName = "access_token";
+        Response.Cookies.Append(
+            authCookieName,
+            encodedToken,
+            new CookieOptions()
             {
-                ModelState.AddModelError("authError",
-                    "This user is not registered yet.");
-                return View(model);
+                Expires = DateTime.Now.AddMinutes(90),
+                HttpOnly = true
             }
+        );
+    }
 
-            if (user.Password != model.Password)
-            {
-                ModelState.AddModelError("authError",
-                    "Incorrect Password");
+    private JwtSecurityToken GenerateUserToken(User user)
+    {
+        var claims = new[]
+        {
+            new Claim("LoggedUserId", user.Id.ToString())
+        };
 
-                return View(model);
-            }
+        var signingKey = new SymmetricSecurityKey(
+            Encoding.ASCII.GetBytes(
+                "d418e5ebaee346698ebbbd375ba1f692"));
+        var signingCredentials = new SigningCredentials(
+            signingKey,
+            SecurityAlgorithms.HmacSha256);
 
-            var token = GenerateUserToken(user);
-            SetAuthenticationBearerToken(token);
+        var token = new JwtSecurityToken(
+            "the.issuer", // issuer
+            "the.audience", // audience
+            claims,
+            expires: DateTime.UtcNow.AddMinutes(90),
+            signingCredentials: signingCredentials
+        );
 
+        return token;
+    }
+
+
+    public IActionResult SignUp()
+    {
+        if (GetLoggedUser() != null)
             return Redirect("/");
-        }
 
-        protected virtual void SetAuthenticationBearerToken(JwtSecurityToken token)
+        return View();
+    }
+
+    [HttpPost]
+    public IActionResult SignUp(SignUpVM model)
+    {
+        if (!ModelState.IsValid)
+            return View(model);
+
+        if (model.Username != null) // warning suppression ¯\_(ツ)_/¯
         {
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var encodedToken = tokenHandler.WriteToken(token);
-            var header = new AuthenticationHeaderValue("Bearer", encodedToken);
-            Response.Headers.Authorization = header.ToString();
-
-            // And because browsers don't care about giving us the Authorization back...
-            var authCookieName = "access_token";
-            Response.Cookies.Append(
-                authCookieName,
-                encodedToken,
-                new CookieOptions()
-                {
-                    Expires = DateTime.Now.AddMinutes(90),
-                    HttpOnly = true
-                }
-            );
-        }
-
-        private JwtSecurityToken GenerateUserToken(User user)
-        {
-            var claims = new[]
+            if (context.FindByUsername(model.Username) != null)
             {
-                new Claim("LoggedUserId", user.Id.ToString())
-            };
-
-            var signingKey = new SymmetricSecurityKey(
-                Encoding.ASCII.GetBytes(
-                    "d418e5ebaee346698ebbbd375ba1f692"));
-            var signingCredentials = new SigningCredentials(
-                signingKey,
-                SecurityAlgorithms.HmacSha256);
-
-            var token = new JwtSecurityToken(
-                "the.issuer", // issuer
-                "the.audience", // audience
-                claims,
-                expires: DateTime.UtcNow.AddMinutes(90),
-                signingCredentials: signingCredentials
-            );
-
-            return token;
-        }
-
-
-        public IActionResult SignUp()
-        {
-            if (GetLoggedUser() != null)
-                return Redirect("/");
-
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult SignUp(SignUpVM model)
-        {
-            if (!ModelState.IsValid)
+                ModelState.AddModelError("Username",
+                    "*This username is already used.");
                 return View(model);
-
-            if (model.Username != null) // warning suppression ¯\_(ツ)_/¯
-            {
-                if (context.FindByUsername(model.Username) != null)
-                {
-                    ModelState.AddModelError("Username",
-                        "*This username is already used.");
-                    return View(model);
-                }
             }
-            else
-            {
-                throw new ArgumentException("Username is NULL");
-            }
-
-            User user = new User
-            {
-                Username = model.Username,
-                Password = model.Password
-            };
-            context.Add(user);
-            context.SaveChanges();
-            this.CreatedUser = user.Username;
-
-            return RedirectToAction("Login");
         }
-
-        public IActionResult Logout()
+        else
         {
-            var authCookieName = "access_token";
-            Response.Cookies.Delete(authCookieName);
-            return RedirectToAction("Login");
+            throw new ArgumentException("Username is NULL");
         }
+
+        User user = new User
+        {
+            Username = model.Username,
+            Password = model.Password
+        };
+        context.Add(user);
+        context.SaveChanges();
+        this.CreatedUser = user.Username;
+
+        return RedirectToAction("Login");
+    }
+
+    public IActionResult Logout()
+    {
+        var authCookieName = "access_token";
+        Response.Cookies.Delete(authCookieName);
+        return RedirectToAction("Login");
     }
 }

@@ -6,26 +6,25 @@ using System.Security.Claims;
 using GameSalad.Repositories;
 using GameSalad.Entities;
 
-namespace GameSalad.Controllers
+namespace GameSalad.Controllers;
+
+public class CustomController : Controller
 {
-    public class CustomController : Controller
+    protected UsersDbContext context;
+
+    public CustomController(UsersDbContext context)
     {
-        protected UsersDbContext context;
+        this.context = context;
+    }
 
-        public CustomController(UsersDbContext context)
-        {
-            this.context = context;
-        }
+    protected virtual User? GetLoggedUser()
+    {
+        var claim = HttpContext?.User?.Claims
+            ?.SingleOrDefault(u => u.Type == "LoggedUserId");
 
-        protected virtual User? GetLoggedUser()
-        {
-            var claim = HttpContext?.User?.Claims
-                ?.SingleOrDefault(u => u.Type == "LoggedUserId");
+        if (!int.TryParse(claim?.Value, out int userId))
+            return null;
 
-            if(!int.TryParse(claim?.Value, out int userId))
-                return null;
-
-            return context.GetUserById(userId);
-        }
+        return context.GetUserById(userId);
     }
 }

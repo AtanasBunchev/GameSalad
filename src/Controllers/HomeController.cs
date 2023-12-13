@@ -3,13 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace GameSalad.Controllers
+namespace GameSalad.Controllers;
+
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }
