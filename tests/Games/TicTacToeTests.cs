@@ -22,6 +22,9 @@ public class TicTacToeTests
     [Fact]
     public void HasFinishedPlayerWonTest()
     {
+        // Perhaps run more exhaustive tests with all win conditions
+        // Currently gonna leave that to the consistency test below
+
         TicTacToe game = new ();
         game.Grid = new char[3,3]
         {
