@@ -261,4 +261,28 @@ public class GamesControllerTests
         Assert.NotNull(dictionary["Id"]);
         Assert.Equal(id, dictionary["Id"]);
     }
+
+    [Fact]
+    public void GameStatsRedirectsIfGameNotFoundTest()
+    {
+        var result = controller.GameStats(10);
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+        Assert.Equal("Index", redirect.ActionName);
+    }
+
+    [Fact]
+    public void GameStatsSetsGameAsModelAndGameTypeAsViewTest()
+    {
+        // Create game
+        controller.BasePlay();
+
+        var entries = context.Games.ToList();
+        Assert.Single(entries);
+        var entry = entries[0];
+
+        var result = controller.GameStats(entry.Id);
+        var view = Assert.IsType<ViewResult>(result);
+        Assert.IsType<MockGame>(view.Model);
+        Assert.Equal(controller.Game.GetGameType(), view.ViewName);
+    }
 }
