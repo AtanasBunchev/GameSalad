@@ -35,6 +35,7 @@ public class TicTacToeTests
         game.EmptyCells = new List<int>{3, 7};
         Assert.True(game.HasFinished());
         Assert.True(game.DidPlayerWon());
+        Assert.Empty(game.GetValidMoves());
     }
 
     [Fact]
@@ -50,6 +51,7 @@ public class TicTacToeTests
         game.EmptyCells = new List<int>{1, 7, 8};
         Assert.True(game.HasFinished());
         Assert.False(game.DidPlayerWon());
+        Assert.Empty(game.GetValidMoves());
     }
 
     [Fact]
@@ -61,6 +63,7 @@ public class TicTacToeTests
             game.PlayMove($"{i}");
             Assert.True(game.Grid[i / 3,i % 3] == 'x');
             Assert.DoesNotContain(i, game.EmptyCells);
+            Assert.NotEmpty(game.GetValidMoves());
         }
     }
 
@@ -106,15 +109,15 @@ public class TicTacToeTests
 
         Random rnd = new ();
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 500; i++)
         {
             TicTacToe game = new ();
-            for (int j = 0; !game.HasFinished() && j < 5; j++)
+            for (int j = 0; !game.HasFinished() && j < 6; j++)
             {
                 var available = game.GetValidMoves();
                 Assert.NotEmpty(available);
                 int move;
-                if (moves.Count < i && moves[i].Count < j)
+                if (moves.Count > i && moves[i].Count > j)
                 {
                     move = moves[i][j] % available.Count;
                 }
@@ -163,7 +166,7 @@ public class TicTacToeTests
             {
                 if(game.Grid[y,x] == 'x')
                     playerMoves++;
-                if(game.Grid[y,x] == 'y')
+                if(game.Grid[y,x] == 'o')
                     enemyMoves++;
             }
         }

@@ -17,8 +17,10 @@ public class TicTacToe : IGame
 
     public override List<string> GetValidMoves()
     {
-        // Not tested because to the test will be more complex than this
-        return EmptyCells.Select(i => $"i").ToList();
+        if (HasFinished())
+            return new();
+
+        return EmptyCells.Select(i => $"{i}").ToList();
     }
 
     public override void PlayMove(string move)
@@ -99,11 +101,37 @@ public class TicTacToe : IGame
     /* Storage */
     public override string GetState()
     {
-        return "";
+        var output = "";
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                output += Grid[y,x];
+            }
+        }
+        return output;
     }
 
     public override void SetState(string data)
     {
+        Grid = new char[3,3] {
+            {' ', ' ', ' '},
+            {' ', ' ', ' '},
+            {' ', ' ', ' '}
+        };
+        EmptyCells = new List<int>();
+
+        this.winner = ' ';
+
+        for (int y = 0; y < 3; y++)
+        {
+            for (int x = 0; x < 3; x++)
+            {
+                Grid[y,x] = data[y * 3 + x];
+                if(Grid[y,x] == ' ')
+                    EmptyCells.Add(y * 3 + x);
+            }
+        }
     }
 
 }
