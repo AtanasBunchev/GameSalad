@@ -25,7 +25,7 @@ public class TestUsersDbContext : UsersDbContext
     public override void Dispose()
     {
         base.Dispose();
-        if(this.dbConn != null)
+        if (this.dbConn != null)
             this.dbConn.Dispose();
     }
 }

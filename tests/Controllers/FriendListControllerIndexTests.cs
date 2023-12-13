@@ -21,21 +21,21 @@ public class FriendListControllerIndexTests
         this.controller = new TestFriendListController(context);
 
         User? loggedUser = null;
-        for(int i = 1; i < 10; i++)
+        for (int i = 1; i < 10; i++)
         {
             var user = UsersDbContextTests.GetValidUser();
             user.Username = $"user{i}";
             this.context.Add(user);
 
-            if(loggedUser == null)
+            if (loggedUser == null)
                 loggedUser = user;
 
-            if(i % 2 == 0)
+            if (i % 2 == 0)
             {
                 Followers.Add(user);
                 user.Follow(loggedUser, this.context);
             }
-            if(i % 3 == 0)
+            if (i % 3 == 0)
             {
                 Following.Add(user);
                 loggedUser.Follow(user, this.context);
