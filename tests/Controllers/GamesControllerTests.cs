@@ -282,7 +282,7 @@ public class GamesControllerTests
 
         var result = controller.GameStats(entry.Id);
         var view = Assert.IsType<ViewResult>(result);
-        Assert.IsType<MockGame>(view.Model);
+        Assert.Equal(entry, view.Model);
         Assert.Equal(controller.Game.GetGameType(), view.ViewName);
     }
 }

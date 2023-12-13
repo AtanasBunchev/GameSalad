@@ -100,7 +100,15 @@ public class GamesController : CustomController
 
     public IActionResult GameStats(int id)
     {
-        // TODO test & implement
-        return View();
+        var entry = context.Games
+            .Where(e => e.Id == id)
+            .FirstOrDefault();
+
+        if(entry == null)
+        {
+            return RedirectToAction("Index");
+        }
+
+        return View(entry.Type, entry);
     }
 }
