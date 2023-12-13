@@ -59,13 +59,13 @@ public class TicTacToeTests
         {
             TicTacToe game = new ();
             game.PlayMove($"{i}");
-            Assert.True(game.Grid[i % 3,i / 3] == 'x');
+            Assert.True(game.Grid[i / 3,i % 3] == 'x');
             Assert.DoesNotContain(i, game.EmptyCells);
         }
     }
 
     [Fact]
-    public void PlayerMoveResultsEnemyMoveTest()
+    public void PlayerMoveLeadsToEnemyMoveTest()
     {
         for (int i = 0; i < 9; i++)
         {
@@ -81,7 +81,7 @@ public class TicTacToeTests
                 {
                     if(game.Grid[y,x] == 'x')
                         playerMoves++;
-                    if(game.Grid[y,x] == 'y')
+                    if(game.Grid[y,x] == 'o')
                         enemyMoves++;
                 }
             }

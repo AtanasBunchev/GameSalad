@@ -17,12 +17,26 @@ public class TicTacToe : IGame
 
     public override List<string> GetValidMoves()
     {
-        return new();
+        // Not tested because to the test will be more complex than this
+        return EmptyCells.Select(i => $"i").ToList();
     }
 
     public override void PlayMove(string move)
     {
+        // player move
+        int pos = int.Parse(move); // Controller only sends valid moves
+        Grid[pos / 3, pos % 3] = 'x';
+        EmptyCells.Remove(pos);
 
+        if (HasFinished())
+            return;
+
+        // enemy move
+        Random rng = new ();
+        int pick = rng.Next(0, EmptyCells.Count);
+        pos = EmptyCells[pick];
+        Grid[pos / 3, pos % 3] = 'o';
+        EmptyCells.Remove(pos);
     }
 
 
