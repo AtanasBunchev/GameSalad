@@ -40,6 +40,13 @@ public class GamesController : CustomController
         where T : IGame, new()
     {
         T game = new();
+        return Play<T>(view, game, action);
+    }
+
+    [NonAction]
+    public virtual IActionResult Play<T>(string view, T game, string? action = null)
+        where T : IGame, new()
+    {
         // TODO split, test & implement
         return View(view, game);
     }

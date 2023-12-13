@@ -17,6 +17,11 @@ public class MockGame : IGame
     public override void PlayMove(string move)
     {
         this.PlayedMoves.Add(move);
+        if (NextState != null)
+        {
+            State = NextState;
+            NextState = null;
+        }
     }
     public override List<string> GetValidMoves() => ValidMoves;
 
@@ -27,6 +32,7 @@ public class MockGame : IGame
     /* Mock Data */
 
     public string State = "";
+    public string? NextState = null;
     public List<string> PlayedMoves = new();
     public List<string> ValidMoves = new();
     public bool Finished = false;
