@@ -46,9 +46,6 @@ public class TicTacToe : IGame
 
     public override bool HasFinished()
     {
-        if(EmptyCells.Count == 0)
-            return true;
-
         char winnerSymbol = ' ';
         for (int i = 0; i < 3; i++)
         {
@@ -79,7 +76,7 @@ public class TicTacToe : IGame
 
         if (winnerSymbol == ' ')
         {
-            return false;
+            return EmptyCells.Count == 0;
         }
         else
         {
