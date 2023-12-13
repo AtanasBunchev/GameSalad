@@ -1,4 +1,5 @@
 using GameSalad.Entities;
+using GameSalad.Games;
 using GameSalad.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -22,13 +23,24 @@ public class GamesController : CustomController
         return View();
     }
 
-    public IActionResult TicTacToe()
+    public IActionResult TicTacToe(string? action = null)
     {
+        //return Play<TicTacToe>("TwentyFortyEight", game, action);
         return View();
     }
 
-    public IActionResult TwentyFortyEight()
+    public IActionResult TwentyFortyEight(string? action = null)
     {
+        //return Play<TwentyFortyEight>("TwentyFortyEight", game, action);
         return View();
+    }
+
+    [NonAction]
+    public virtual IActionResult Play<T>(string view, string? action = null)
+        where T : IGame, new()
+    {
+        T game = new();
+        // TODO split, test & implement
+        return View(view, game);
     }
 }
