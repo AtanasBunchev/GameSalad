@@ -22,6 +22,18 @@ public class MockGame : IGame
             State = NextState;
             NextState = null;
         }
+
+        if (NextFinished != null)
+        {
+            Finished = NextFinished == true ? true : false;
+            NextFinished = null;
+        }
+
+        if (NextPlayerWon != null)
+        {
+            PlayerWon = NextPlayerWon == true ? true : false;
+            NextPlayerWon = null;
+        }
     }
     public override List<string> GetValidMoves() => ValidMoves;
 
@@ -36,6 +48,8 @@ public class MockGame : IGame
     public List<string> PlayedMoves = new();
     public List<string> ValidMoves = new();
     public bool Finished = false;
+    public bool? NextFinished = null;
     public bool PlayerWon = false;
+    public bool? NextPlayerWon = null;
 
 }

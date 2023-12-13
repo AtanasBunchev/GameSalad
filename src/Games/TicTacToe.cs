@@ -5,23 +5,21 @@ public class TicTacToe : IGame
     public override string GetGameType() => "TicTacToe";
 
 
-    public override string GetState()
-    {
-        return "";
-    }
 
-    public override void SetState(string data)
-    {
-    }
-
+    /* State modifications */
 
     public override List<string> GetValidMoves()
     {
         return new();
     }
+
     public override void PlayMove(string move)
     {
+
     }
+
+
+    /* State Checks */
 
     public override bool HasFinished()
     {
@@ -32,4 +30,16 @@ public class TicTacToe : IGame
     {
         return false;
     }
+
+
+    /* Storage */
+    public override string GetState()
+    {
+        return "";
+    }
+
+    public override void SetState(string data)
+    {
+    }
+
 }

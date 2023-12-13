@@ -238,4 +238,27 @@ public class GamesControllerTests
         Assert.Equal(state1, game.State);
         Assert.Equal(state1, entry.Data);
     }
+
+    [Fact]
+    public void PlayGameFinishesRedirectToGameStatsScreen()
+    {
+        var move = "finish";
+        var game = controller.Game;
+        game.NextFinished = true;
+        game.ValidMoves.Add("finish");
+
+        var result = controller.BasePlay(move);
+        var redirect = Assert.IsType<RedirectToRouteResult>(result);
+
+        var entries = context.Games.ToList();
+        Assert.Single(entries);
+        var entry = entries[0];
+
+        Assert.Equal("GameStats", redirect.RouteName); // fix?
+        int id = entry.Id;
+        var dictionary = redirect.RouteValues;
+        Assert.NotNull(dictionary);
+        Assert.NotNull(dictionary["Id"]);
+        Assert.Equal(id, dictionary["Id"]);
+    }
 }

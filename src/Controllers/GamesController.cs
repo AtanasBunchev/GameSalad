@@ -23,10 +23,10 @@ public class GamesController : CustomController
         return View();
     }
 
+
     public IActionResult TicTacToe(string? action = null)
     {
-        //return Play<TicTacToe>("TwentyFortyEight", game, action);
-        return View();
+        return Play<TicTacToe>("TicTacToe", action);
     }
 
     public IActionResult TwentyFortyEight(string? action = null)
@@ -89,5 +89,12 @@ public class GamesController : CustomController
         }
 
         return View(view, game);
+    }
+
+
+    public IActionResult GameStats(int id)
+    {
+        // TODO test & implement
+        return View();
     }
 }
