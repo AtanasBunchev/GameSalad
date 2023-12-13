@@ -168,8 +168,8 @@ public class UserControllerTests
         var model = LoginVMTests.GetValidModel();
 
         var user = UsersDbContextTests.GetValidUser();
-        user.Username = model.Username;
-        user.Password = model.Password;
+        model.Username = user.Username;
+        model.Password = user.Password;
 
         context.Add(user);
         context.SaveChanges();
@@ -185,8 +185,8 @@ public class UserControllerTests
         var model = LoginVMTests.GetValidModel();
 
         var user = UsersDbContextTests.GetValidUser();
-        user.Username = model.Username;
-        user.Password = model.Password;
+        model.Username = user.Username;
+        model.Password = user.Password;
 
         context.Add(user);
         context.SaveChanges();

@@ -132,18 +132,17 @@ public class UserController : CustomController
         if (!ModelState.IsValid)
             return View(model);
 
-        if (model.Username != null) // warning suppression ¯\_(ツ)_/¯
+        if (model.Username == null || model.Password == null)
         {
-            if (context.FindByUsername(model.Username) != null)
-            {
-                ModelState.AddModelError("Username",
-                    "*This username is already used.");
-                return View(model);
-            }
-        }
-        else
-        {
+             // warning suppression ¯\_(ツ)_/¯
             throw new ArgumentException("Username is NULL");
+        }
+
+        if (context.FindByUsername(model.Username) != null)
+        {
+            ModelState.AddModelError("Username",
+                "*This username is already used.");
+            return View(model);
         }
 
         User user = new User
