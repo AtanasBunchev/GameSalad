@@ -36,18 +36,58 @@ public class GamesController : CustomController
     }
 
     [NonAction]
-    public virtual IActionResult Play<T>(string view, string? action = null)
+    public virtual IActionResult Play<T>(string view, string? move = null)
         where T : IGame, new()
     {
         T game = new();
-        return Play<T>(view, game, action);
+        return Play<T>(view, game, move);
     }
 
     [NonAction]
-    public virtual IActionResult Play<T>(string view, T game, string? action = null)
+    public virtual IActionResult Play<T>(string view, T game, string? move = null)
         where T : IGame, new()
     {
-        // TODO split, test & implement
+        var user = GetLoggedUser();
+        if (user == null)
+            return Redirect("/");
+
+        var entry = context.Games
+            .Where(g =>
+                g.UserId == user.Id
+                && g.Active == true
+                && g.Type == game.GetGameType())
+            .FirstOrDefault();
+
+        if (entry == null)
+        {
+            entry = new GameEntry
+            {
+                Type = game.GetGameType(),
+                UserId = user.Id,
+                Data = game.GetState()
+            };
+            context.Add(entry);
+            context.SaveChanges();
+        }
+        else if (entry.Data != null)
+        {
+            game.SetState(entry.Data);
+        }
+
+        if (move != null)
+        {
+            var validMoves = game.GetValidMoves();
+            if (validMoves.Contains(move))
+            {
+                game.PlayMove(move);
+
+                entry.Data = game.GetState();
+                context.Update(entry);
+                context.SaveChanges();
+                return RedirectToAction(view);
+            }
+        }
+
         return View(view, game);
     }
 }
