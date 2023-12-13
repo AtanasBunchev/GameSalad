@@ -64,7 +64,7 @@ namespace GameSaladTests.Migrations
                 column: "FollowerId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
 
             migrationBuilder.AddForeignKey(
                 name: "FK_UserFollowEntries_Users_TargetId",
@@ -72,7 +72,7 @@ namespace GameSaladTests.Migrations
                 column: "TargetId",
                 principalTable: "Users",
                 principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
+                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
