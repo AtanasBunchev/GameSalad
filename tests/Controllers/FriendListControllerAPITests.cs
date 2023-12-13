@@ -41,6 +41,8 @@ public class FriendListControllerAPITests
         Assert.Single(this.controller.FollowCalls);
         Assert.Equal(user1, this.controller.FollowCalls[0].Item1);
         Assert.Equal(user2, this.controller.FollowCalls[0].Item2);
+        Assert.Equal(user2.Username, controller.FollowedUser);
+        Assert.Null(controller.UnfollowedUser);
     }
 
     [Fact]
@@ -65,5 +67,25 @@ public class FriendListControllerAPITests
         Assert.Single(this.controller.UnfollowCalls);
         Assert.Equal(user1, this.controller.UnfollowCalls[0].Item1);
         Assert.Equal(user2, this.controller.UnfollowCalls[0].Item2);
+        Assert.Null(controller.FollowedUser);
+        Assert.Equal(user2.Username, controller.UnfollowedUser);
+    }
+
+    [Fact]
+    public void IndexSetsFollowedUserTest()
+    {
+        controller.FollowedUser = "user";
+        controller.Index();
+        Assert.Equal("user", controller.FollowedUser);
+        Assert.Null(controller.UnfollowedUser);
+    }
+
+    [Fact]
+    public void IndexSetsUnfollowedUserTest()
+    {
+        controller.UnfollowedUser = "user";
+        controller.Index();
+        Assert.Null(controller.FollowedUser);
+        Assert.Equal("user", controller.UnfollowedUser);
     }
 }

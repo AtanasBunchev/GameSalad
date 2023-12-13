@@ -12,4 +12,7 @@ public class IndexVM
 
     [DisplayName("Username: ")]
     public string? Username { get; set; }
+
+    public string? FollowedUser { get; set; }
+    public string? UnfollowedUser { get; set; }
 }

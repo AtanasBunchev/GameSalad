@@ -42,6 +42,14 @@
     </div>
 }
 
+@if (TempData["UnfollowedUser"] != null) {
+    <div>
+        Successfully unfollowed
+        <b>@TempData["UnfollowedUser"]</b>
+    </div>
+}
+
+
 <form action="@Url.Action("Follow")" method="post">
     <div class="inline_block">
         <table>

@@ -14,6 +14,10 @@ namespace GameSalad.Controllers;
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 public class FriendListController : CustomController
 {
+    [TempData]
+    public string? FollowedUser { get; set; }
+    public string? UnfollowedUser { get; set; }
+
     public FriendListController(UsersDbContext context)
         : base(context)
     {
@@ -47,7 +51,9 @@ public class FriendListController : CustomController
                         .Reference(u => u.Target)
                         .Load();
                     return u.Target;
-                }).ToList()
+                }).ToList(),
+            FollowedUser = FollowedUser,
+            UnfollowedUser = UnfollowedUser
         };
 
         return View(model);
@@ -58,7 +64,11 @@ public class FriendListController : CustomController
         var self = GetLoggedUser();
         var user = context.FindByUsername(username);
         if(self != null && user != null) {
-            Follow(self, user);
+            if (self != user)
+            {
+                Follow(self, user);
+                FollowedUser = user.Username;
+            }
         }
         return RedirectToAction("Index");
     }
@@ -68,7 +78,11 @@ public class FriendListController : CustomController
         var self = GetLoggedUser();
         var user = context.FindByUsername(username);
         if(self != null && user != null) {
-            Unfollow(self, user);
+            if (self != user)
+            {
+                Unfollow(self, user);
+                UnfollowedUser = user.Username;
+            }
         }
         return RedirectToAction("Index");
     }
