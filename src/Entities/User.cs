@@ -16,4 +16,6 @@ public class User : Entity
     public List<UserFollowEntry> Followers { get; set; } = new();
     [InverseProperty("Follower")]
     public List<UserFollowEntry> Followed { get; set; } = new();
+
+    public List<GameEntry> Games { get; set; } = new ();
 }
