@@ -39,6 +39,22 @@ public class TicTacToeTests
     }
 
     [Fact]
+    public void HasFinishedPlayerWonFullGridTest()
+    {
+        TicTacToe game = new ();
+        game.Grid = new char[3,3]
+        {
+            {'x', 'o', 'x'},
+            {'x', 'x', 'o'},
+            {'o', 'o', 'x'}
+        };
+        game.EmptyCells.Clear();
+        Assert.True(game.HasFinished());
+        Assert.True(game.DidPlayerWon());
+        Assert.Empty(game.GetValidMoves());
+    }
+
+    [Fact]
     public void HasFinishedPlayerLostTest()
     {
         TicTacToe game = new ();

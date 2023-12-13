@@ -24,14 +24,14 @@ public class GamesController : CustomController
     }
 
 
-    public IActionResult TicTacToe(string? action = null)
+    public IActionResult TicTacToe(string? move = null)
     {
-        return Play<TicTacToe>("TicTacToe", action);
+        return Play<TicTacToe>("TicTacToe", move);
     }
 
-    public IActionResult TwentyFortyEight(string? action = null)
+    public IActionResult TwentyFortyEight(string? move = null)
     {
-        //return Play<TwentyFortyEight>("TwentyFortyEight", game, action);
+        //return Play<TwentyFortyEight>("TwentyFortyEight", game, move);
         return View();
     }
 
@@ -74,6 +74,19 @@ public class GamesController : CustomController
             game.SetState(entry.Data);
         }
 
+        if (game.HasFinished())
+        {
+            entry.Data = game.GetState();
+            entry.Active = false;
+            entry.Won = game.DidPlayerWon();
+            context.Update(entry);
+            context.SaveChanges();
+
+            return RedirectToAction("GameStats", new {
+                id = entry.Id
+            });
+        }
+
         if (move != null)
         {
             var validMoves = game.GetValidMoves();
@@ -82,6 +95,8 @@ public class GamesController : CustomController
                 game.PlayMove(move);
 
                 entry.Data = game.GetState();
+                entry.Active = !game.HasFinished();
+                entry.Won = game.DidPlayerWon();
                 context.Update(entry);
                 context.SaveChanges();
                 if (game.HasFinished())
@@ -109,6 +124,6 @@ public class GamesController : CustomController
             return RedirectToAction("Index");
         }
 
-        return View(entry.Type, entry);
+        return View(entry.Type + "Stats", entry);
     }
 }

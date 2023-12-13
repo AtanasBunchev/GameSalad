@@ -240,6 +240,29 @@ public class GamesControllerTests
     }
 
     [Fact]
+    public void PlayGameFinishedRedirectToGameStatsScreen()
+    {
+        var game = controller.Game;
+        game.Finished = true;
+
+        var result = controller.BasePlay();
+        var redirect = Assert.IsType<RedirectToActionResult>(result);
+
+        var entries = context.Games.ToList();
+        Assert.Single(entries);
+        var entry = entries[0];
+
+        Assert.Equal("GameStats", redirect.ActionName);
+        int id = entry.Id;
+        var dictionary = redirect.RouteValues;
+        Assert.NotNull(dictionary);
+        Assert.NotNull(dictionary["Id"]);
+        Assert.Equal(id, dictionary["Id"]);
+        Assert.False(entry.Active);
+    }
+
+
+    [Fact]
     public void PlayGameFinishesRedirectToGameStatsScreen()
     {
         var move = "finish";
@@ -283,6 +306,6 @@ public class GamesControllerTests
         var result = controller.GameStats(entry.Id);
         var view = Assert.IsType<ViewResult>(result);
         Assert.Equal(entry, view.Model);
-        Assert.Equal(controller.Game.GetGameType(), view.ViewName);
+        Assert.Equal(controller.Game.GetGameType() + "Stats", view.ViewName);
     }
 }

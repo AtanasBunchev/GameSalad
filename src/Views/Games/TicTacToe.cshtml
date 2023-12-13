@@ -1,23 +1,13 @@
+@model GameSalad.Games.TicTacToe;
 @using GameSalad.Entities;
 @using GameSalad.Games;
 @{
     ViewData["title"] = "GameSalad | Tic Tac Toe";
-
-    var entry = Model as GameEntry;
-    var game = Model as TicTacToe;
-    if (entry != null)
-    {
-        game = new TicTacToe();
-        if(entry.Data != null)
-        {
-            game.SetState(entry.Data);
-        }
-    }
 }
 
 @section Style
 {
-    <link rel="stylesheet" href="~/css/ticTacToe.css" />
+    <link rel="stylesheet" href="~/css/TicTacToe.css" />
 }
 
 <div class="center_content">
@@ -34,7 +24,7 @@
             var pos = y * 3 + x;
             <td>
                 <a href="?move=@pos">
-                    @game?.Grid[y, x]
+                    @Model.Grid[y, x]
                 </a>
             </td>
         }

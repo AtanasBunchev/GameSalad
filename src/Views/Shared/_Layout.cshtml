@@ -3,25 +3,28 @@
 @using GameSalad.Entities;
 @using GameSalad.Repositories;
 @{
-    User? user = null;
-
-    var claimValue = Context
-        ?.User
-        ?.Claims
-        ?.SingleOrDefault(u =>
-            u.Type == "LoggedUserId")
-        ?.Value;
-
-    if (int.TryParse(claimValue, out int userId))
+    if (ViewData["user"] == null)
     {
-        using (var dbContext = new UsersDbContext())
-        {
-            user = dbContext.GetUserById(userId);
-        }
-    }
+        User? user = null;
 
-    if(user != null)
-        ViewData["user"] = user;
+        var claimValue = Context
+            ?.User
+            ?.Claims
+            ?.SingleOrDefault(u =>
+                u.Type == "LoggedUserId")
+            ?.Value;
+
+        if (int.TryParse(claimValue, out int userId))
+        {
+            using (var dbContext = new UsersDbContext())
+            {
+                user = dbContext.GetUserById(userId);
+            }
+        }
+
+        if(user != null)
+            ViewData["user"] = user;
+    }
 }
 <!DOCTYPE html>
 <html lang="en">

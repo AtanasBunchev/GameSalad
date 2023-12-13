@@ -1,0 +1,89 @@
+@model GameSalad.Entities.GameEntry;
+@using GameSalad.Entities;
+@using GameSalad.Games;
+@using GameSalad.Repositories;
+@{
+    ViewData["title"] = "GameSalad | Tic Tac Toe";
+
+    User? user = null;
+    if (ViewData["user"] == null)
+    {
+
+        var claimValue = Context
+            ?.User
+            ?.Claims
+            ?.SingleOrDefault(u =>
+                u.Type == "LoggedUserId")
+            ?.Value;
+
+        if (int.TryParse(claimValue, out int userId))
+        {
+            using (var dbContext = new UsersDbContext())
+            {
+                user = dbContext.GetUserById(userId);
+            }
+        }
+
+        if(user != null)
+            ViewData["user"] = user;
+    }
+    else
+    {
+        user = ViewData["user"] as User;
+    }
+
+    var game = new TicTacToe();
+    if(Model.Data != null)
+        game.SetState(Model.Data);
+    ViewData["conclusion"] = game.DidPlayerWon()
+        ? "Win"
+        : "Lose";
+    ViewData["player"] = user?.Id == Model?.UserId
+        ? "You"
+        : user?.Username;
+
+    ViewData["game"] = game;
+}
+
+@section Style
+{
+    <link rel="stylesheet" href="~/css/TicTacToe.css" />
+}
+
+<div class="center_content">
+    <h2>Tic Tac Toe</h2>
+</div>
+<div class="center_content">
+    <h2>@ViewData?["player"] @ViewData?["conclusion"]!</h2>
+</div>
+
+<div class="center_content game_container">
+    <table>
+    @for(int y = 0; y < 3; y++)
+    {
+        <tr>
+        @for(int x = 0; x < 3; x++)
+        {
+            var pos = y * 3 + x;
+            <td>
+                <a href="?move=@pos">
+                    @((ViewData?["game"] as TicTacToe)?.Grid?[y, x])
+                </a>
+            </td>
+        }
+        </tr>
+    }
+    </table>
+</div>
+
+<br />
+
+<div class="center_content">
+    <ul class="menu">
+        <a href="@Url.Action("TicTacToe")">
+            <li>
+                Play a new game!
+            </li>
+        </a>
+    </ul>
+</div>
