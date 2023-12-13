@@ -10,12 +10,19 @@
         </h2>
         @foreach (var user in Model.Following)
         {
-            <div class="inline-block">
-                @user.Username
-                <form action="@Url.Action("Unfollow")" method="post">
-                    <input type="hidden" name="Username" value="@user.Username">
-                    <button> Unfollow </button>
-                </form>
+            <div class="flex_container">
+                <div>
+                    @user.Username
+                </div>
+                <div class="flex_container">
+                    <a href="@Url.Action("Index", "Profiles", new { id = user.Id})">
+                        <button> Profile </button>
+                    </a>
+                    <form action="@Url.Action("Unfollow")" method="post">
+                        <input type="hidden" name="Username" value="@user.Username">
+                        <button> Unfollow </button>
+                    </form>
+                </div>
             </div>
         }
     </div>
@@ -26,8 +33,15 @@
         </h2>
         @foreach (var user in Model.Followers)
         {
-            <div class="inline-block">
-                @user.Username
+            <div class="flex_container">
+                <div>
+                    @user.Username
+                </div>
+                <div>
+                    <a href="@Url.Action("Index", "Profiles", new { id = user.Id})">
+                        <button> Profile </button>
+                    </a>
+                </div>
             </div>
         }
     </div>

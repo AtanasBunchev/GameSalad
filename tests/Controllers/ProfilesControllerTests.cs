@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using GameSalad.Controllers;
 using GameSalad.Entities;
 using GameSalad.ExtensionMethods;
-//using GameSalad.ViewModels.Profiles;
 using GameSaladTests.Repositories;
 
 namespace GameSaladTests.Controllers;

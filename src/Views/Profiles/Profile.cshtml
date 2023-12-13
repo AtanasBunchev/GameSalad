@@ -1,0 +1,113 @@
+@model GameSalad.Entities.User;
+@using GameSalad.Entities;
+@using System.Linq;
+@{
+    ViewData["Title"] = "GameSalad | User Profile";
+    var won = Model.Games.Where(g => g.Won).Count();
+    var lost = Model.Games.Where(g => !g.Won).Count();
+    var total = Model.Games.Count();
+
+    List<GameEntry> gameList = Model.Games
+        .Skip(Math.Max(0, total - 10))
+        .ToList();
+    gameList.Reverse();
+}
+
+<div class="center_content">
+    <h2>
+        @Model.Username
+    </h2>
+</div>
+
+<div class="flex_container">
+    <div style="text-align: center;">
+        <h2> Stats </h2>
+        <p>
+            Wins: <b> @Model.Games.Where(g => g.Won).Count() </b>
+        </p>
+        <p>
+            Loses: <b> @Model.Games.Where(g => !g.Won).Count() </b>
+        </p>
+        <p>
+            Total games: <b> @Model.Games.Count() </b>
+        </p>
+        <br />
+        <p>
+            Win ratio:
+            @{
+                if ( total > 0 )
+                {
+                    <b>@Math.Round(100.0 * won / total, 2)%</b>
+                }
+                else
+                {
+                    <b>No data</b>
+                }
+            }
+        </p>
+        <p>
+            Lose ratio:
+            @{
+                if ( total > 0 )
+                {
+                    <b>@Math.Round(100.0 * lost / total, 2)%</b>
+                }
+                else
+                {
+                    <b>No data</b>
+                }
+            }
+        </p>
+        <p>
+            Win/Lose ratio:
+            @{
+                if ( total > 0 )
+                {
+                    <b>@Math.Round(1.0 * won / lost, 2)</b>
+                }
+                else
+                {
+                    <b>No data</b>
+                }
+            }
+        </p>
+    </div>
+
+    <div>
+        <h2 class="center_content"> Last games </h2>
+        <div class="flex_container">
+            <div>
+                Type:
+            </div>
+            <div>
+                Status:
+            </div>
+            <div>
+                Display:
+            </div>
+        </div>
+        @foreach (var entry in gameList) {
+        <div class="flex_container">
+            <div style="text-align: right;">
+                @entry.Type
+            </div>
+            <div style="text-align: right;">
+                @if (entry.Active) {
+                    <span style="color: blue;"> Currently Playing </span>
+                } else if (entry.Won) {
+                    <span style="color: green;"> Win </span>
+                } else {
+                    <span style="color: red;"> Lose </span>
+                }
+            </div>
+            <div style="text-align: right;">
+                <a href="@Url.Action("GameStats", "Games", new { id = entry.Id })">
+                    <button> Details </button>
+                </a>
+            </div>
+        </div>
+        }
+        <table>
+    </div>
+</div>
+

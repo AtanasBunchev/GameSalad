@@ -1,6 +1,5 @@
 using GameSalad.Entities;
 using GameSalad.Repositories;
-//using GameSalad.ViewModels.Profiles;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,25 +18,12 @@ public class ProfilesController : CustomController
     {
     }
 
-    public IActionResult Index()
-    {
-        var user = GetLoggedUser();
-        if(user == null)
-            return Redirect("/");
-
-        context.Entry(user)
-            .Collection(u => u.Games)
-            .Load();
-
-        return View("Profile", user);
-    }
-
-    public IActionResult Index(int id)
+    public IActionResult Index(int id = 0)
     {
         if(GetLoggedUser() == null)
             return Redirect("/");
 
-        var user = context.GetUserById(id);
+        var user = id != 0 ? context.GetUserById(id) : GetLoggedUser();
         if(user == null)
             return Redirect("/");
 
