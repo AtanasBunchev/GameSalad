@@ -1,5 +1,3 @@
-#nullable disable
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +12,7 @@ public class UserFollowEntry : Entity
     public int TargetId { get; set; }
 
     [ForeignKey("FollowerId")]
-    public User Follower { get; set; }
+    public User Follower { get; set; } = null!;
     [ForeignKey("TargetId")]
-    public User Target { get; set; }
+    public User Target { get; set; } = null!;
 }
