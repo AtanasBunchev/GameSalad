@@ -8,7 +8,7 @@
         <h2 class="center_content">
             People You are Following
         </h2>
-        @foreach(var user in Model.Following)
+        @foreach (var user in Model.Following)
         {
             <div class="inline-block">
                 @user.Username
@@ -24,7 +24,7 @@
         <h2 class="center_content">
             People that Follow You
         </h2>
-        @foreach(var user in Model.Followers)
+        @foreach (var user in Model.Followers)
         {
             <div class="inline-block">
                 @user.Username
@@ -35,7 +35,7 @@
 
 <h3> Follow Friend </h3>
 
-@if(TempData["FollowedUser"] != null) {
+@if (TempData["FollowedUser"] != null) {
     <div>
         Successfully followed
         <b>@TempData["FollowedUser"]</b>
