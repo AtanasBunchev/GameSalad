@@ -1,0 +1,51 @@
+@using GameSalad.Entities;
+@using GameSalad.Games;
+@{
+    ViewData["title"] = "GameSalad | Tic Tac Toe";
+
+    var entry = Model as GameEntry;
+    var game = Model as TicTacToe;
+    if (entry != null)
+    {
+        game = new TicTacToe();
+        if(entry.Data != null)
+        {
+            game.SetState(entry.Data);
+        }
+    }
+}
+
+@section Style
+{
+    <link rel="stylesheet" href="~/css/ticTacToe.css" />
+}
+
+<div class="center_content">
+    <h2>Tic Tac Toe</h2>
+</div>
+
+<div class="center_content game_container">
+    <table>
+    @for(int y = 0; y < 3; y++)
+    {
+        <tr>
+        @for(int x = 0; x < 3; x++)
+        {
+            var pos = y * 3 + x;
+            <td>
+                <a href="?move=@pos">
+                    @game?.Grid[y, x]
+                </a>
+            </td>
+        }
+        </tr>
+    }
+    </table>
+</div>
+
+<p align="center">
+    Click on a cell to draw a 'X'. After that the bot will draw an 'O'.
+</p>
+<p align="center">
+    Wins the first who draws 3 in a horizontal, vertical or diagonal line.
+</p>
