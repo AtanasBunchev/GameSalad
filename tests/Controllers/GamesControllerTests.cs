@@ -35,7 +35,6 @@ public class GamesControllerTests
 
     /* Public Views Tests */
 
-    /* Missing GameSalad.Games.TicTacToe
     [Fact]
     public void TicTacToeCallsPlayTest()
     {
@@ -60,7 +59,6 @@ public class GamesControllerTests
         Assert.Equal(action, call.Action);
         Assert.Equal(result, call.Result);
     }
-    */
 
     /* Missing GameSalad.Games.TwentyFortyEight
     [Fact]
